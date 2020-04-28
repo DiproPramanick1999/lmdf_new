@@ -214,7 +214,14 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="<?php echo base_url(); ?>back_static/profile/employee/<?php echo $user['profile_pic']; ?>" class="img-circle elevation-2" alt="User Image">
+          <?php
+              if($user['type'] == 'user'){
+                $pic_url = base_url() . "back_static/profile/user/";
+              }else{
+                $pic_url = base_url() . "back_static/profile/employee/";
+              }
+           ?>
+          <img src="<?php echo $pic_url; ?><?php echo $user['profile_pic']; ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">

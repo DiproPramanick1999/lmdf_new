@@ -60,27 +60,24 @@
                     <h3 class="heading text-center mb-3 mb-sm-5">Sign Up</h3>
                 </div>
                 <div class="contact-w3pvt-form mt-5">
-                    <form class="w3layouts-contact-fm" method="post" action="<?php echo base_url(); ?>home_l/signup_validation">
-                      <p style="color:red;"><?php echo $this->session->flashdata("login_msg") . "<br>". $this->session->userdata("userid"); ?></p>
+                    <form class="w3layouts-contact-fm" method="post" action="<?php echo base_url(); ?>home_l/signup_validation" >
+                      <p style="color:red;"><?php echo $error_msg; ?></p>
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="userid">User Id</label>
                                     <?php echo form_error("userid"); ?>
-                                    <input class="form-control" type="number" name="userid" id="userid" placeholder="Enter User Id">
+                                    <input class="form-control" type="number" name="userid" id="userid" placeholder="Enter User Id"required>
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Registered Mobile Number</label>
                                     <?php echo form_error("password"); ?>
-                                    <input class="form-control" type="number" name="password" id="password" placeholder="Enter Password" >
+                                    <input class="form-control" type="number" name="mobile" id="mobile" placeholder="Enter Registered Mobile Number" required>
                                 </div>
 
                             </div>
                              <div class="form-group mx-auto mt-3">
                                 <button class="btn submit" style="background-color:red;">Sign Up</button>
-                            </div>
-                             <div class="form-group mx-auto mt-3">
-                                <a href="#" onclick="window.location.href='forgot.php?forgot=<?php echo uniqid(true);?>'" >Forgot Password?</a>
                             </div>
 
                         </div>
