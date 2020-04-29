@@ -69,6 +69,21 @@
     background-color: #4CAF50;
     color: white;
   }
+
+  .iframe-container{
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+}
+.iframe-container iframe{
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -84,16 +99,16 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="<?php echo base_url(); ?>" class="nav-link">Home</a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
+      <!-- <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
-      </li>
+      </li> -->
       <li class="nav-item d-none d-sm-inline-block">
         <a href="<?php echo base_url() ?>/home/logout" class="nav-link">Logout</a>
       </li>
     </ul>
 
     <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
+    <!-- <form class="form-inline ml-3">
       <div class="input-group input-group-sm">
         <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
         <div class="input-group-append">
@@ -102,19 +117,19 @@
           </button>
         </div>
       </div>
-    </form>
+    </form> -->
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
+      <!-- <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-comments"></i>
           <span class="badge badge-danger navbar-badge">3</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <a href="#" class="dropdown-item">
-            <!-- Message Start -->
+
             <div class="media">
               <img src="<?php echo base_url(); ?>back_static/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
               <div class="media-body">
@@ -126,11 +141,11 @@
                 <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
               </div>
             </div>
-            <!-- Message End -->
+
           </a>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
-            <!-- Message Start -->
+
             <div class="media">
               <img src="<?php echo base_url(); ?>back_static/dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
@@ -142,11 +157,11 @@
                 <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
               </div>
             </div>
-            <!-- Message End -->
+
           </a>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
-            <!-- Message Start -->
+
             <div class="media">
               <img src="<?php echo base_url(); ?>back_static/dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
@@ -158,21 +173,21 @@
                 <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
               </div>
             </div>
-            <!-- Message End -->
+
           </a>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
         </div>
-      </li>
+      </li> -->
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+          <span class="badge badge-warning navbar-badge">0</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
+          <span class="dropdown-item dropdown-header">0 Notifications</span>
+          <!-- <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> 4 new messages
             <span class="float-right text-muted text-sm">3 mins</span>
@@ -189,13 +204,13 @@
           </a>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
+        </div> -->
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
           <i class="fas fa-th-large"></i>
         </a>
-      </li>
+      </li> -->
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -214,7 +229,14 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="<?php echo base_url(); ?>back_static/profile/employee/<?php echo $user['profile_pic']; ?>" class="img-circle elevation-2" alt="User Image">
+          <?php
+              if($user['type'] == 'user'){
+                $pic_url = base_url() . "back_static/profile/user/";
+              }else{
+                $pic_url = base_url() . "back_static/profile/employee/";
+              }
+           ?>
+          <img src="<?php echo $pic_url; ?><?php echo $user['profile_pic']; ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">
@@ -297,15 +319,53 @@
                   <p>View Employees</p>
                 </a>
               </li>
-              <li class="nav-item">
+
+              <!-- <li class="nav-item">
                 <a href="pages/layout/boxed.html" class="nav-link">
                   <i class="fas fa-rupee-sign nav-icon"></i>
                   <p>Pay Salary</p>
                 </a>
-              </li>
+              </li> -->
             </ul>
           </li>
+
+
+
+
+
           <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-dumbbell"></i>
+              <p>
+                Workouts
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="<?php echo base_url(); ?>workout/add" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  <p>Add Workouts</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?php echo base_url(); ?>workout/view" class="nav-link">
+                  <i class="fas fa-binoculars nav-icon"></i>
+                  <p>View Workouts</p>
+                </a>
+              </li>
+
+              <!-- <li class="nav-item">
+                <a href="pages/layout/boxed.html" class="nav-link">
+                  <i class="fas fa-rupee-sign nav-icon"></i>
+                  <p>Pay Salary</p>
+                </a>
+              </li> -->
+            </ul>
+          </li>
+
+
+          <!-- <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
@@ -736,7 +796,7 @@
               <i class="nav-icon far fa-circle text-info"></i>
               <p>Informational</p>
             </a>
-          </li>
+          </li> -->
           <li class="nav-header">SETTINGS</li>
           <li class="nav-item">
             <a href="<?php echo base_url() ?>/home/logout" class="nav-link">
@@ -745,6 +805,43 @@
             </a>
           </li>
         <?php } ?>
+
+        <?php
+            if ($user['type'] == "user") {
+         ?>
+
+        <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-dumbbell"></i>
+            <p>
+              Workouts
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="<?php echo base_url(); ?>workout/view" class="nav-link">
+                <i class="fas fa-binoculars nav-icon"></i>
+                <p>View Workouts</p>
+              </a>
+            </li>
+
+            <!-- <li class="nav-item">
+              <a href="pages/layout/boxed.html" class="nav-link">
+                <i class="fas fa-rupee-sign nav-icon"></i>
+                <p>Pay Salary</p>
+              </a>
+            </li> -->
+          </ul>
+        </li>
+        <li class="nav-header">SETTINGS</li>
+        <li class="nav-item">
+          <a href="<?php echo base_url() ?>/home/logout" class="nav-link">
+            <i class="fas fa-sign-out-alt"></i>
+            <p class="text">Logout</p>
+          </a>
+        </li>
+      <?php } ?>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

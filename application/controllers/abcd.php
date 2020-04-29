@@ -19,7 +19,9 @@
     //   echo $pass;
     // }
 
-    echo "Hi dipro";
+    $this->load->helper('url');
+    $this->session->set_flashdata('signup',true);
+    redirect(base_url()."home/login");
 
 
   }

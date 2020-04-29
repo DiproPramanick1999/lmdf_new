@@ -2,6 +2,9 @@
     if ($this->session->userdata("userid") != "") {
       redirect(base_url()."dashboard");
     }
+    if ($this->session->flashdata("signup")) {
+      echo "<script>alert('Registered Successfully. Please login to Continue');</script>";
+    }
  ?>
 <!DOCTYPE html>
 <html lang="zxx">
