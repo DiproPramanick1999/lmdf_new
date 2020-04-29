@@ -35,6 +35,15 @@
       $video = $this->workout_model->getVideo($muscle,$week);
       echo $video;
     }
+
+    function delete()
+    {
+      $this->load->helper('url');
+      $this->load->model('workout_model');
+      $muscle = $_POST['muscle'];
+      $week = $_POST['week'];
+      $this->workout_model->delVideo($muscle,$week);
+    }
   }
 
 ?>

@@ -19,10 +19,10 @@
     //   echo $pass;
     // }
 
-    $this->load->helper('url');
-    $this->session->set_flashdata('signup',true);
-    redirect(base_url()."home/login");
-
+    // $this->load->helper('url');
+    // $this->session->set_flashdata('signup',true);
+    // redirect(base_url()."home/login");
+    print_r($this->session->userdata('userid'));
 
   }
 

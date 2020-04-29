@@ -79,11 +79,11 @@
            </div>
            <!-- /.card-header -->
            <!-- form start -->
-           <form role="form" method="post" action="<?php echo base_url(); ?>workout/addlink">
+           <div>
              <div class="card-body">
                <div class="form-group">
                  <label>Muscle Group</label>
-                 <select class="form-control" name="muscle">
+                 <select class="form-control" id="muscled">
                    <option>Chest</option>
                    <option>Biceps</option>
                    <option>Triceps</option>
@@ -96,7 +96,7 @@
                </div>
                <div class="form-group">
                  <label>Week</label>
-                 <select class="form-control" name="week">
+                 <select class="form-control" id="weekd">
                    <option>1</option>
                    <option>2</option>
                    <option>3</option>
@@ -105,14 +105,35 @@
                </div>
              <!-- /.card-body -->
              <div class="card-footer">
-               <button type="submit" class="btn btn-danger btn-block">Delete</button>
+               <button class="btn btn-danger btn-block" onclick="delVideo()">Delete</button>
              </div>
-           </form>
+           </div>
          </div>
        </div>
      </div>
    </div>
  </section>
+ <script type="text/javascript">
+      function delVideo() {
+        let confimation = confirm("Sure you want to delete video?");
+        if (confimation) {
+          $.ajax({
+            type : 'POST',
+            url: "<?php echo base_url(); ?>workout/delete",
+            data: {
+              'muscle' : $("#muscled").val(),
+              'week' : $("#weekd").val()
+            },
+            success: function(msg) {
+              alert("Video Deleted Successfully.");
+            },
+            error: function(msg) {
+              alert("Server Error! Try again Later");
+            }
+          })
+        }
+      }
+ </script>
  <?php
    include __DIR__ . "/../footer.php";
   ?>
