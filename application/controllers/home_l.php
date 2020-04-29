@@ -29,7 +29,7 @@
             $this->load->view('front/signup',$data);
           }
         }else {
-          redirect(base_url());
+          redirect(base_url()."home/login");
         }
 
       }else{

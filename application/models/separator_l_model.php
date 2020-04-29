@@ -16,13 +16,13 @@
 
     function validClient($userid)
     {
-      $query = $this->db->query("SELECT gender FROM user WHERE id={$userid}");
+      $query = $this->db->query("SELECT pic FROM user WHERE id={$userid}");
       if ($query->num_rows()>0) {
         foreach ($query->result() as $row) {
-          $gender = $row->gender;
+          $pic = $row->pic;
         }
       }
-      if (isset($gender)) {
+      if (isset($pic)) {
         return true;
       }else {
         return false;
