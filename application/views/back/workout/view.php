@@ -1,5 +1,6 @@
 <?php
   include __DIR__ . "/../header.php";
+  include __DIR__ . "/../must.php";
  ?>
  <section class="content-header">
    <div class="container-fluid">
@@ -74,7 +75,7 @@
             'muscle' : $("#muscle").val(),
             'week' : $("#week").val(),
           },
-          success : function (msg) {            
+          success : function (msg) {
             $("#video-div").html(msg);
             // alert("success");
           },

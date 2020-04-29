@@ -24,8 +24,13 @@
           return "<h2>Video Not Uploaded</h2>";
         }
       }else {
-
+        return "<h2>Video Not Uploaded</h2>";
       }
+    }
+
+    function delVideo($muscle,$week)
+    {
+      $query = $this->db->query("UPDATE workout SET link='' where muscle='{$muscle}' AND week={$week}");
     }
   }
 ?>

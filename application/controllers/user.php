@@ -5,7 +5,8 @@
     {
       $this->load->helper('url');
       $this->load->model('separator_l_model');
-      $data = json_decode(json_encode($this->separator_l_model->get_user_data(1000)), true);
+      $id = $this->session->userdata('userid');
+      $data = json_decode(json_encode($this->separator_l_model->get_user_data($id)), true);
       $this->load->view('back/users/photo',$data);
     }
 

@@ -10,7 +10,7 @@
    <div class="container-fluid">
      <div class="row mb-2">
        <div class="col-sm-6">
-         <h1>Change User Photo</h1>
+         <h1>Change User Photo <?php if($user['profile_pic'] == 'default.png') echo " to continue."; ?></h1>
        </div>
        <div class="col-sm-6">
          <ol class="breadcrumb float-sm-right">

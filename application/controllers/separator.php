@@ -33,7 +33,7 @@
                 );
                 $password = $this->encryption->decrypt($password);
                 // Comparing the input and output password
-
+                // echo $password."<br>".$entered_password;
                 if ($password == $entered_password) {
                   // To get username
                   $this->load->model("main_model");
@@ -67,7 +67,9 @@
           }else{
               $this->load->view("front/login");
           }
+
         }
+
 
         // LOGOUT FUNCTION
         function logout()

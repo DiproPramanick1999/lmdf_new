@@ -3,9 +3,9 @@
 
 <head>
     <title>Leon Maestro De Fitness</title>
-     <link rel = "icon" type = "image/png" href = "images/logo.png">
+    <link rel = "icon" type = "image/png" href = "<?php echo base_url(); ?>front_static/images/logo.png">
     <!-- For apple devices -->
-    <link rel = "apple-touch-icon" type = "image/png" href = "images/logo.png"/>
+    <link rel = "apple-touch-icon" type = "image/png" href = "<?php echo base_url(); ?>front_static/images/logo.png"/>
     <!-- Meta tag Keywords -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" />
