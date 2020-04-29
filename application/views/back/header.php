@@ -10,6 +10,9 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <link rel = "icon" type = "image/png" href = "<?php echo base_url(); ?>front_static/images/logo.png">
+  <!-- For apple devices -->
+  <link rel = "apple-touch-icon" type = "image/png" href = "<?php echo base_url(); ?>front_static/images/logo.png"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Leon Maestro De Fitness</title>
   <!-- Tell the browser to be responsive to screen width -->

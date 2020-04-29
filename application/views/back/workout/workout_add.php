@@ -128,7 +128,7 @@
               alert("Video Deleted Successfully.");
             },
             error: function(msg) {
-              alert("Server Error! Try again Later");
+              alert("Server Error! Try again Later"); 
             }
           })
         }
