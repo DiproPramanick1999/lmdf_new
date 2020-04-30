@@ -151,5 +151,80 @@
       $url = base_url();
       redirect($url);
     }
+
+    function forgot()
+    {
+      $this->load->helper("url");
+      $this->load->view("front/forgot");
+    }
+
+
+    function forgotValidation()
+    {
+      $this->load->helper("url");
+      $userid = $this->input->post("id");
+      $email = $this->input->post("email");
+      $this->load->model("main_model");
+      $verify = $this->main_model->verify_user_forgot($userid,$email);
+      if ($verify) {
+        $uid = bin2hex(openssl_random_pseudo_bytes(50));
+        $this->main_model->token_add($userid,$uid);
+        $from = "noreply@leonmaestrodefitness.com";
+        $to = $email;
+        $subject = "Password Reset";
+        $message = '<p>
+     Please Click on the link to reset your password
+     <a target="_blank" href="https://leonmaestrodefitness.com/home/reset/'.dechex($userid).'/'.$uid.'">https://leonmaestrodefitness.com/reset</a>
+    </p>';
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        $headers .= "From:" . $from;
+        if(mail($to,$subject,$message, $headers)){
+          $this->session->set_flashdata('success_msg','success');
+          redirect(base_url().'home/forgot');
+        }
+      }else {
+        $this->session->set_flashdata('error_msg','Please Enter Registered Email.');
+        redirect(base_url()."home/forgot");
+      }
+    }
+
+    function reset()
+    {
+      $url = $this->uri->segment_array();
+      $data['uid'] = end($url);
+      $data['id'] = hexdec(prev($url));
+      $this->load->model('main_model');
+      $data['valid'] = $this->main_model->valid_reset($data['id'],$data['uid']);
+      $this->load->helper('url');
+      $this->load->view('front/reset',$data);
+    }
+
+    function resetValidation()
+    {
+      $this->load->helper("url");
+      $password = $this->input->post('password');
+      $Cpassword = $this->input->post('Cpassword');
+      $id = $this->input->post('id');
+      $uid = $this->input->post('uid');
+      if ($password != $Cpassword) {
+        $this->session->set_flashdata('error_msg','Password do not match.');
+        redirect(base_url()."home/reset/".dechex($id)."/".$uid);
+      }else {
+        $this->load->library('encryption');
+        $this->encryption->initialize(
+            array(
+              'cipher' => 'aes-256',
+              'mode' => 'ctr',
+            )
+        );
+        $pass =  $this->encryption->encrypt($password);
+        $this->load->model('main_model');
+        $this->main_model->update_password($id,$pass);
+        $this->session->set_flashdata('password','success');
+        redirect(base_url()."home/login");
+      }
+    }
+
   }
 ?>

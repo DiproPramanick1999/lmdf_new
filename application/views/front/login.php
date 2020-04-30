@@ -5,6 +5,9 @@
     if ($this->session->flashdata("signup")) {
       echo "<script>alert('Registered Successfully. Please login to Continue');</script>";
     }
+    if ($this->session->flashdata("password")) {
+      echo "<script>alert('Password Changed Successfully. Please login to Continue');</script>";
+    }
  ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -83,7 +86,7 @@
                                 <button class="btn submit" style="background-color:red;">Login</button>
                             </div>
                              <div class="form-group mx-auto mt-3">
-                                <a href="#" onclick="window.location.href='forgot.php?forgot=<?php echo uniqid(true);?>'" >Forgot Password?</a>
+                                <a href="<?php echo base_url(); ?>home/forgot" >Forgot Password?</a>
                             </div>
 
                         </div>

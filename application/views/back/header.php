@@ -800,13 +800,6 @@
               <p>Informational</p>
             </a>
           </li> -->
-          <li class="nav-header">SETTINGS</li>
-          <li class="nav-item">
-            <a href="<?php echo base_url() ?>/home/logout" class="nav-link">
-              <i class="fas fa-sign-out-alt"></i>
-              <p class="text">Logout</p>
-            </a>
-          </li>
         <?php } ?>
 
         <?php
@@ -837,14 +830,81 @@
             </li> -->
           </ul>
         </li>
-        <li class="nav-header">SETTINGS</li>
+      <?php } ?>
+
+
+      <?php
+          if ($user['type'] == "trainer") {
+       ?>
+
+      <li class="nav-item has-treeview">
+        <a href="#" class="nav-link">
+          <i class="nav-icon fas fa-dumbbell"></i>
+          <p>
+            Workouts
+            <i class="fas fa-angle-left right"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">
+            <a href="<?php echo base_url(); ?>workout/view" class="nav-link">
+              <i class="fas fa-binoculars nav-icon"></i>
+              <p>View Workouts</p>
+            </a>
+          </li>
+
+          <!-- <li class="nav-item">
+            <a href="pages/layout/boxed.html" class="nav-link">
+              <i class="fas fa-rupee-sign nav-icon"></i>
+              <p>Pay Salary</p>
+            </a>
+          </li> -->
+        </ul>
+      </li>
+
+    <?php } ?>
+
+
+
+    <?php
+        if ($user['type'] == "sales") {
+     ?>
+
+    <li class="nav-item has-treeview">
+      <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-dumbbell"></i>
+        <p>
+          Workouts
+          <i class="fas fa-angle-left right"></i>
+        </p>
+      </a>
+      <ul class="nav nav-treeview">
         <li class="nav-item">
-          <a href="<?php echo base_url() ?>/home/logout" class="nav-link">
-            <i class="fas fa-sign-out-alt"></i>
-            <p class="text">Logout</p>
+          <a href="<?php echo base_url(); ?>workout/view" class="nav-link">
+            <i class="fas fa-binoculars nav-icon"></i>
+            <p>View Workouts</p>
           </a>
         </li>
-      <?php } ?>
+
+        <!-- <li class="nav-item">
+          <a href="pages/layout/boxed.html" class="nav-link">
+            <i class="fas fa-rupee-sign nav-icon"></i>
+            <p>Pay Salary</p>
+          </a>
+        </li> -->
+      </ul>
+    </li>
+
+  <?php } ?>
+
+  <li class="nav-header">SETTINGS</li>
+  <li class="nav-item">
+    <a href="<?php echo base_url() ?>/home/logout" class="nav-link">
+      <i class="fas fa-sign-out-alt"></i>
+      <p class="text">Logout</p>
+    </a>
+  </li>
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

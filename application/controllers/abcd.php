@@ -7,16 +7,21 @@
 
     function index()
     {
-      // echo "string";
-      $this->load->library('encryption');
-      $this->encryption->initialize(
-          array(
-            'cipher' => 'aes-256',
-            'mode' => 'ctr',
-          )
-      );
-      $pass =  $this->encryption->encrypt("Lmdf@123");
-      echo $pass;
+      // $userid = 1000;
+      // $hex = dechex($userid);
+      // echo $hex;
+      // echo "<br>";
+      // echo hexdec("186a8");
+      // // echo "string";
+    //   $this->load->library('encryption');
+    //   $this->encryption->initialize(
+    //       array(
+    //         'cipher' => 'aes-256',
+    //         'mode' => 'ctr',
+    //       )
+    //   );
+    //   $pass =  $this->encryption->encrypt("Lmdf@123");
+    //   echo $pass;
     // }
 
     // $this->load->helper('url');
