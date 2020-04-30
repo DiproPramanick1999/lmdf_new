@@ -96,17 +96,10 @@
                                  'id' : <?php echo $user['userid'];?>
                              },
                              success: function(msg){
-                                 //alert(msg);
                                  if(msg!= 'Success'){
                                      $("#buttn").attr('disabled',  "disabled");
-                                     //alert("he");
-                                     //alert(msg);
                                  }
                                  else{
-                                     //
-                                     // console.log(msg);
-                                     //alert('she');
-                                    // alert("YYEESS");
                                      $("#buttn").removeAttr("disabled");
                                  }
                              },
