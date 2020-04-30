@@ -1,5 +1,8 @@
 <?php
   include __DIR__ . "/../header.php";
+  if(!($user['type'] == "user")){
+    redirect(base_url());
+  }
  ?>
 
  <section class="content-header">
