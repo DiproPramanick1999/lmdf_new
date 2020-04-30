@@ -1,5 +1,5 @@
 <?php
-  include 'header.php';
+  include __DIR__ . "/../header.php";
  ?>
 
  <section class="content-header">
@@ -36,7 +36,7 @@
                    ?>
 
                 <?php date_default_timezone_set("Asia/Calcutta");
-                      $today = date('Y-m-d'); 
+                      $today = date('Y-m-d');
                       $tomorrow = date("Y-m-d", strtotime("+1 day"));
                       $this->session->userdata('userid');
                  ?>
@@ -71,7 +71,7 @@
                      </div>
                    </div>
                  </div>
-                 
+
 
 
               <div class="card-footer">
@@ -82,11 +82,9 @@
              <!-- /.card-body -->
            </div>
            <script>
-                     console.log("hello");
                      function checker(){
-                         console.log("hello");
                          $.ajax({
-                             
+
                              type : 'POST',
                              url : '<?php echo base_url();?>book_l/checkAvailability',
                              data : {
@@ -97,30 +95,29 @@
                              success: function(msg){
                                  //alert(msg);
                                  if(msg!= 'Success'){
-                                     console.log(msg);
                                      $("#buttn").attr('disabled',  "disabled");
                                      //alert("he");
                                      //alert(msg);
                                  }
                                  else{
                                      //
-                                     console.log(msg);
+                                     // console.log(msg);
                                      //alert('she');
                                     // alert("YYEESS");
                                      $("#buttn").removeAttr("disabled");
                                  }
                              },
                              error: function(msg){
-                                 console.log(msg);
+                                 // console.log(msg);
                                  alert("server error try again later");
                              }
-                             
+
                          });
                      }
                             checker();
-                   
+
                    </script>
-          
+
            <!-- /.card -->
          </div>
        </div>
@@ -128,5 +125,5 @@
    </section>
 
 <?php
-  include 'footer.php';
+  include __DIR__ . "/../footer.php";
  ?>

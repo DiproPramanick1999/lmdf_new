@@ -8,7 +8,7 @@
     function index()
     {
       $this->load->helper("url");
-      $this->load->view("book_slot/book");
+      $this->load->view("back/book_slot/book");
     }
 
     function checkAvailability() {
