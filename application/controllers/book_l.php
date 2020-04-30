@@ -8,7 +8,7 @@
     function index()
     {
       $this->load->helper("url");
-      $this->load->view("back/book");
+      $this->load->view("book_slot/book");
     }
 
     function checkAvailability() {
@@ -32,9 +32,9 @@
                 echo "Success";
             }
         }
-        
+
     }
-      
+
       function booking(){
         $userid = $this->session->userdata('userid');
         $this->load->model('book_model');
@@ -46,12 +46,12 @@
         $this->book_model->insert_data($data);
         redirect(base_url() . "book_l/inserted");
     }
-    
+
     public function inserted()
     {
-        
+
         $this->index();
-        
+
     }
 
 
