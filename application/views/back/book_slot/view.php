@@ -25,10 +25,11 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
+                 <button class="btn btn-dark" id="btn1">Get All Details</button>
                   <!-- <h3 class="card-title">Fixed Header Table</h3> -->
                   <div class="card-tools">
                       <input type="date" class='datepicker' name="datepicker1" id="get_details"/>
-                      <button id="btn">Get Details</button>                  
+                      <button class="btn btn-dark" id="btn">Get Details</button>                  
                   </div>
                 </div>
                 <!-- /.card-header -->
@@ -57,6 +58,10 @@
              <script type="text/javascript">
                     $("#btn").click(function () {
                          getDetails();
+                    });
+                 
+                    $("#btn1").click(function () {
+                         window.location.href="<?php echo base_url() ?>book_l/client";
                     });
                  
                  function getDetails() {
