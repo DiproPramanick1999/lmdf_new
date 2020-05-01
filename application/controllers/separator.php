@@ -45,6 +45,7 @@
                     }
                     $username = $row->name;
                     $profile_pic = $row->pic;
+                    $phone = $row->phone;
                   // Sessioning
                   $emp_count = $this->employee_model->get_employee_count(); // Get employee counts
                   $session_data = array(
@@ -52,7 +53,8 @@
                     'type' => $type,
                     'username' => $username,
                     'emp_count' => $emp_count,
-                    'profile_pic' => $profile_pic
+                    'profile_pic' => $profile_pic,
+                    'phone' => $phone
                   );
                   $this->session->set_userdata($session_data);
                   redirect(base_url()."dashboard");

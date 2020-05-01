@@ -39,7 +39,7 @@
              <div class="card-body">
                <div class="row">
                  <div class="col-md-6">
-                   <center><img src="<?php echo base_url(); ?>back_static/profile/employee/<?php echo $pic; ?>" id="profile-pic" class="img-circle" style="width:200px;" alt=""> </center>
+                   <center><img src="<?php echo base_url(); ?>back_static/profile/user/<?php echo $pic; ?>" id="profile-pic" class="img-circle" style="width:200px;" alt=""> </center>
                  </div>
                  <div class="col-md-6" style="margin-top:50px;">
                    <center><button type="button" class="btn btn-default" name="button" data-toggle="modal" data-target="#exampleModal" onclick="startCam()">Open Camera</button>
