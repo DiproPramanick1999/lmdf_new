@@ -41,7 +41,7 @@
                 <?php date_default_timezone_set("Asia/Calcutta");
                       $today = date('Y-m-d');
                       $tomorrow = date("Y-m-d", strtotime("+1 day"));
-                      $this->session->userdata('userid');
+                      $this->session->userdata('userid');                   
                  ?>
                  <div class="row">
                    <div class="col-sm-6">
@@ -93,20 +93,13 @@
                              data : {
                                  'date' : $("#sel_date").val(),
                                  'time' : $("#sel_time").val(),
-                                 'id' : <?php echo $user['userid'];?>
+                                 'id' : <?php echo $user['userid'];?>                                 
                              },
                              success: function(msg){
-                                 //alert(msg);
                                  if(msg!= 'Success'){
                                      $("#buttn").attr('disabled',  "disabled");
-                                     //alert("he");
-                                     //alert(msg);
                                  }
                                  else{
-                                     //
-                                     // console.log(msg);
-                                     //alert('she');
-                                    // alert("YYEESS");
                                      $("#buttn").removeAttr("disabled");
                                  }
                              },

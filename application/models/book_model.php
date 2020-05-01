@@ -19,6 +19,7 @@ class Book_model extends CI_Model{
 
     function insert_data($data){
         $this->db->insert("bookslot",$data);
+//<<<<<<< Updated upstream
 
     }
 
@@ -30,5 +31,25 @@ class Book_model extends CI_Model{
       return $query;
     }
 
+//=======
+    
+    function fetch_data($get_details)
+    {
+        if($get_details!="")
+        {
+            $query = $this->db->query("SELECT * FROM bookslot WHERE date='{$get_details}'");
+            return $query;
+        }
+        else{
+            $query = $this->db->query("SELECT * FROM bookslot");
+            return $query;    
+        }
+        
+
+    }
+    
+    
+    
+//>>>>>>> Stashed changes
 }
 ?>

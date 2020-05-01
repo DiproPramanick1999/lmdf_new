@@ -10,6 +10,13 @@
       $this->load->helper("url");
       $this->load->view("back/book_slot/book");
     }
+      
+    function client()
+    {
+        $this->load->helper("url");
+        $this->load->view("back/book_slot/view");    
+        
+    }
 
     function checkAvailability() {
         $date = $_POST['date'];
@@ -37,9 +44,15 @@
 
       function booking(){
         $userid = $this->session->userdata('userid');
+        $username = $this->session->userdata('username');
+        $phone = $this->session->userdata('phone');
+        $pic = $this->session->userdata('profile_pic');
         $this->load->model('book_model');
         $data = array(
             "userid" =>$userid,
+            "username" =>$username,
+            "phone" =>$phone,
+            "pic" =>$pic,
             "date" => $this->input->post("date"),
             "time" => $this->input->post("time")
         );
@@ -53,7 +66,33 @@
         $this->index();
 
     }
+    function date_pick()
+    {   
+        $this->load->helper('url');
+        $get_details = $_POST["get_details"];
+        $this->load->model('book_model');
+        $query = $this->book_model->fetch_data($get_details);
+        $table = "";
+        if ($query->num_rows()>0) {
+          foreach ($query->result() as $row) {
+            $table .= "<tr>";
+            $table .= "<td>{$row->userid}</td>";
+            $table .= "<td>{$row->username}</td>";
+            $table .= "<td>{$row->phone}</td>";
+            $table .= "<td>{$row->date}</td>";
+            $table .= "<td>{$row->time}</td>";
+            $table .= "</tr>";
+          }
+        }
+        else
+        {
+          $table .= "No Records Available";
+        }
+        echo $table;
+        
+    }
 
+//<<<<<<< Updated upstream
     function pass()
     {
       $this->load->helper("url");
@@ -94,6 +133,8 @@
     }
 
 
+//=======
+//>>>>>>> Stashed changes
 
 }
 
