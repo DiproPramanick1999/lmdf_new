@@ -19,20 +19,17 @@ class Book_model extends CI_Model{
 
     function insert_data($data){
         $this->db->insert("bookslot",$data);
-//<<<<<<< Updated upstream
-
     }
 
     function get_data($userid)
     {
       date_default_timezone_set('Asia/Kolkata');
       $date = date("Y-m-d");
-      $query = $this->db->query("SELECT * from bookslot where date='{$date}' and userid=$userid");
+      $query = $this->db->query("SELECT * from bookslot where date='{$date}' and userid={$userid}");
       return $query;
     }
 
-//=======
-    
+
     function fetch_data($get_details)
     {
         if($get_details!="")
@@ -42,14 +39,19 @@ class Book_model extends CI_Model{
         }
         else{
             $query = $this->db->query("SELECT * FROM bookslot");
-            return $query;    
+            return $query;
         }
-        
+
 
     }
-    
-    
-    
-//>>>>>>> Stashed changes
+
+    function get_today_booking()
+    {
+      date_default_timezone_set('Asia/Kolkata');
+      $date = date("Y-m-d");
+      $query = $this->db->query("SELECT * from bookslot WHERE date='{$date}' ORDER BY time DESC");
+      return $query;
+    }
+
 }
 ?>
