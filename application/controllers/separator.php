@@ -44,6 +44,7 @@
                         continue;
                     }
                     $username = $row->name;
+                    $phone = $row->phone;
                     $profile_pic = $row->pic;
                     $phone = $row->phone;
                   // Sessioning
@@ -53,8 +54,13 @@
                     'type' => $type,
                     'username' => $username,
                     'emp_count' => $emp_count,
+<<<<<<< Updated upstream
                     'profile_pic' => $profile_pic,
                     'phone' => $phone
+=======
+                    'phone' => $phone,
+                    'profile_pic' => $profile_pic
+>>>>>>> Stashed changes
                   );
                   $this->session->set_userdata($session_data);
                   redirect(base_url()."dashboard");
