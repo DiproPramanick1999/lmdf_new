@@ -1,7 +1,7 @@
 <?php
   include __DIR__ . "/../header.php";
  ?>
- 
+
 
 <section class="content-header">
    <div class="container-fluid">
@@ -11,7 +11,8 @@
        </div>
        <div class="col-sm-6">
          <ol class="breadcrumb float-sm-right">
-           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>"></a></li>
+           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Home</a></li>
+           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Booking</a></li>
            <li class="breadcrumb-item active">Customer Details</li>
          </ol>
        </div>
@@ -21,15 +22,16 @@
 
     <section class="content" >
         <div class="container-fluid">
+          <button class="btn btn-dark" id="btn1" style="margin-bottom:10px;">Get All Details</button>
           <div class="row">
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                 <button class="btn btn-dark" id="btn1">Get All Details</button>
                   <!-- <h3 class="card-title">Fixed Header Table</h3> -->
                   <div class="card-tools">
                       <input type="date" class='datepicker' name="datepicker1" id="get_details"/>
-                      <button class="btn btn-dark" id="btn">Get Details</button>                  
+                      <button class="btn btn-dark" id="btn">Get Details</button>
+
                   </div>
                 </div>
                 <!-- /.card-header -->
@@ -59,11 +61,11 @@
                     $("#btn").click(function () {
                          getDetails();
                     });
-                 
+
                     $("#btn1").click(function () {
                          window.location.href="<?php echo base_url() ?>book_l/client";
                     });
-                 
+
                  function getDetails() {
                    $.ajax({
                      type: "POST",
