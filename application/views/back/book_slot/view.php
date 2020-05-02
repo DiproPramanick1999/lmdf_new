@@ -82,6 +82,11 @@
                    });
                  }
                  getDetails();
+                 
+                 function viewClientDetails(id)
+                 {
+                     window.location.href="<?php echo base_url() ?>book_l/details/"+id;
+                 }
              </script>
 
  <?php
