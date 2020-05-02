@@ -52,10 +52,10 @@ class Book_model extends CI_Model{
       $query = $this->db->query("SELECT * from bookslot WHERE date='{$date}' ORDER BY time DESC");
       return $query;
     }
-    
+
     function clientData($clientid)
     {
-        $query = $this->db->query("SELECT * FROM bookslot WHERE userid={$clientid}");
+        $query = $this->db->query("SELECT * FROM bookslot WHERE userid={$clientid} ORDER BY date DESC");
         return $query;
     }
 

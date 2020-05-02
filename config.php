@@ -23,7 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/gym_l';
+// $config['base_url'] = 'https://leonmaestrodefitness.com';
+$config['base_url']    = 'https://'.$_SERVER['HTTP_HOST'].'/';
 // $config['base_url'] = 'http://192.168.0.104/gym';
 /*
 |--------------------------------------------------------------------------
@@ -100,7 +101,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = FALSE;
+$config['enable_hooks'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -521,3 +522,4 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+$config['maintenance_mode'] = FALSE;

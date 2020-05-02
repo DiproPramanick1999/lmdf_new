@@ -1,5 +1,8 @@
 <?php
   include __DIR__ . "/../header.php";
+  if ($user["type"] != "admin") {
+    redirect(base_url());
+  }
  ?>
 
 
@@ -82,7 +85,7 @@
                    });
                  }
                  getDetails();
-                 
+
                  function viewClientDetails(id)
                  {
                      window.location.href="<?php echo base_url() ?>book_l/details/"+id;

@@ -15,7 +15,6 @@
     {
         $this->load->helper("url");
         $this->load->view("back/book_slot/view");
-
     }
 
     function checkAvailability() {
@@ -157,7 +156,7 @@
       $data['valid'] = '';
       $this->load->view("back/book_slot/book_view_tc",$data);
     }
-      
+
       function details()
       {
           $this->load->helper('url');
@@ -166,7 +165,7 @@
           $this->load->model("book_model");
           $data["client_data"]=$this->book_model->clientData($clientid);
           $this->load->view("back/book_slot/client_view",$data);
-          
+
       }
       function clienttable()
       {
@@ -201,8 +200,8 @@
             $table .= "No Records Available";
         }
         echo $table;
-          
-          
+
+
       }
 
 }
