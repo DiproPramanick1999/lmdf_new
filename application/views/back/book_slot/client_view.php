@@ -1,7 +1,10 @@
 <?php
   include __DIR__ . "/../header.php";
+  if ($user["type"] != "admin") {
+    redirect(base_url());
+  }
  ?>
- 
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -11,7 +14,8 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Home</a></li>
+              <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>book_l/client">Booking</a></li>
               <li class="breadcrumb-item active">User Profile</li>
             </ol>
           </div>
@@ -36,7 +40,7 @@
                 <p class="text-muted text-center" id="userid"><?php echo $client_data->row()->phone;?></p>
                 <h2 class="text-warning">Booking History</h2>
                 <table class="table table-bordered">
-                  <thead>               
+                  <thead>
                     <tr>
                       <th>Date</th>
                       <th>Time Slot</th>

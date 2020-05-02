@@ -7,6 +7,7 @@
 
     function index()
     {
+      $this->load->view("noti");
       // $userid = 1000;
       // $hex = dechex($userid);
       // echo $hex;

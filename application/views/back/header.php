@@ -367,6 +367,13 @@
             </ul>
           </li>
 
+          <li class="nav-item">
+            <a href="<?php echo base_url(); ?>book_l/client" class="nav-link">
+              <i class="fas fa-binoculars nav-icon"></i>
+              <p>View Bookings</p>
+            </a>
+          </li>
+
 
           <!-- <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
@@ -810,7 +817,7 @@
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-dumbbell"></i>
             <p>
-              Workouts
+              Workouts<?php echo $user['type']; ?>
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
@@ -821,14 +828,20 @@
                 <p>View Workouts</p>
               </a>
             </li>
-
-            <!-- <li class="nav-item">
-              <a href="pages/layout/boxed.html" class="nav-link">
-                <i class="fas fa-rupee-sign nav-icon"></i>
-                <p>Pay Salary</p>
-              </a>
-            </li> -->
           </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="<?php echo base_url(); ?>book_l" class="nav-link">
+            <i class="fas fa-plus nav-icon"></i>
+            <p>Book Workout</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="<?php echo base_url(); ?>book_l/pass" class="nav-link">
+            <i class="fas fa-binoculars nav-icon"></i>
+            <p>View Slot</p>
+          </a>
         </li>
       <?php } ?>
 
@@ -862,6 +875,12 @@
         </ul>
       </li>
 
+      <li class="nav-item">
+        <a href="<?php echo base_url(); ?>book_l/viewClients" class="nav-link">
+          <i class="fas fa-binoculars nav-icon"></i>
+          <p>View Bookings</p>
+        </a>
+      </li>
     <?php } ?>
 
 
@@ -893,6 +912,12 @@
           </a>
         </li> -->
       </ul>
+    </li>
+    <li class="nav-item">
+      <a href="<?php echo base_url(); ?>book_l/viewClients" class="nav-link">
+        <i class="fas fa-binoculars nav-icon"></i>
+        <p>View Bookings</p>
+      </a>
     </li>
 
   <?php } ?>
