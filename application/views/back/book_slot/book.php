@@ -40,7 +40,9 @@
 
                 <?php date_default_timezone_set("Asia/Calcutta");
                       $today = date('Y-m-d');
+                      $today_display = date('d-m-Y');
                       $tomorrow = date("Y-m-d", strtotime("+1 day"));
+                      $tomorrow_display = date("d-m-Y", strtotime("+1 day"));
                       $this->session->userdata('userid');                   
                  ?>
                  <div class="row">
@@ -49,8 +51,8 @@
                      <div class="form-group">
                        <label>Day Available</label>
                        <select class="form-control" name="date" id="sel_date" onchange="checker()">
-                         <option value="<?php echo $today;?>">Today</option>
-                         <option value="<?php echo $tomorrow;?>">Tomorrow</option>
+                         <option value="<?php echo $today;?>"><?php echo $today_display;?></option>
+                         <option value="<?php echo $tomorrow;?>"><?php echo $tomorrow_display;?></option>
                        </select>
                      </div>
                    </div>
