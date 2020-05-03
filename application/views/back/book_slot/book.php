@@ -37,7 +37,8 @@
                        echo '<p class="text-success">Your Slot has been booked successfully</p>';
                    }
                    ?>
-
+                <h3 class="text-muted">Total Slots:20</h3>
+                <h3 id="slot" class="text-muted"></h3>
                 <?php date_default_timezone_set("Asia/Calcutta");
                       $today = date('Y-m-d');
                       $today_display = date('d-m-Y');
@@ -111,8 +112,29 @@
                              }
 
                          });
+                             slotCheck();
                      }
                             checker();
+                        function slotCheck(){
+                                 $.ajax({
+
+                             type : 'POST',
+                             url : '<?php echo base_url();?>book_l/slotsAvailable',
+                             data : {
+                                 'date' : $("#sel_date").val(),
+                                 'time' : $("#sel_time").val(),
+                                 'id' : <?php echo $user['userid'];?>                                 
+                             },
+                             success: function(msg){
+                                $("#slot").html("Available Slots:"+msg);
+                             },
+                             error: function(msg){
+                                 // console.log(msg);
+                                 alert("server error try again later");
+                             }
+
+                         });
+                        }
 
                    </script>
 

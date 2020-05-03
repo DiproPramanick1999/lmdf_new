@@ -41,6 +41,15 @@
 
     }
 
+    function slotsAvailable(){
+        $date = $_POST['date'];
+        $time = $_POST['time'];
+        $this->load->model('book_model');
+        $availability = $this->book_model->slot_check($date,$time);
+        echo 20-$availability->num_rows();
+    }
+      
+      
       function booking(){
         $userid = $this->session->userdata('userid');
         $username = $this->session->userdata('username');
