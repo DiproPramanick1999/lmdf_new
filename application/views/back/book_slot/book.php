@@ -44,7 +44,7 @@
                       $today_display = date('d-m-Y');
                       $tomorrow = date("Y-m-d", strtotime("+1 day"));
                       $tomorrow_display = date("d-m-Y", strtotime("+1 day"));
-                      $this->session->userdata('userid');                   
+                      $this->session->userdata('userid');
                  ?>
                  <div class="row">
                    <div class="col-sm-6">
@@ -96,7 +96,7 @@
                              data : {
                                  'date' : $("#sel_date").val(),
                                  'time' : $("#sel_time").val(),
-                                 'id' : <?php echo $user['userid'];?>                                 
+                                 'id' : <?php echo $user['userid'];?>
                              },
                              success: function(msg){
                                  if(msg!= 'Success'){
@@ -123,13 +123,13 @@
                              data : {
                                  'date' : $("#sel_date").val(),
                                  'time' : $("#sel_time").val(),
-                                 'id' : <?php echo $user['userid'];?>                                 
+                                 'id' : <?php echo $user['userid'];?>
                              },
                              success: function(msg){
                                 $("#slot").html("Available Slots:"+msg);
                              },
                              error: function(msg){
-                                 // console.log(msg);
+                                 console.log(msg);
                                  alert("server error try again later");
                              }
 
