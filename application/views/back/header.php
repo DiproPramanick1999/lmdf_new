@@ -843,6 +843,12 @@
             <p>View Slot</p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="<?php echo base_url(); ?>book_l/history" class="nav-link">
+            <i class="fas fa-history nav-icon"></i>
+            <p>Booking History</p>
+          </a>
+        </li>
       <?php } ?>
 
 

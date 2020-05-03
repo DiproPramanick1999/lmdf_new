@@ -204,6 +204,42 @@
 
       }
 
+      function history()
+      {
+        $this->load->helper('url');
+        $userid = $this->session->userdata('userid');
+        $this->load->model('book_model');
+        $query = $this->book_model->clientData($userid);
+        $timeArr = array(
+          '5' => "5:00-6:00",
+          '6' => "6:30-7:30",
+          '8' => "8:00-9:00",
+          '9' => "9:30-10:30",
+          '11' => "11:00-12:00",
+          '12' => "12:30-13:30",
+          '14' => "14:00-15:00",
+          '15' => "15:30-16:30",
+          '17' => "17:00-18:00",
+          '18' => "18:30-19:30",
+          '20' => "20:00-21:00",
+          '21' => "21:30-22:30",
+        );
+        $table = "";
+        if ($query->num_rows()>0) {
+          foreach ($query->result() as $row) {
+            $table .= "<tr>";
+            $table .= "<td>".date("d-m-Y", strtotime($row->date))."</td>";
+            $table .= "<td>{$timeArr[$row->time]}</td>";
+            $table .= "</tr>";
+          }
+        }
+        else{
+            $table .= "No Records Available";
+        }
+        $data['table'] = $table;
+        $this->load->view("back/book_slot/client_all",$data);
+      }
+
 }
 
 
