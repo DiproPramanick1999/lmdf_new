@@ -16,6 +16,11 @@ class Book_model extends CI_Model{
             }
         }
     }
+    
+    function slot_check($date,$time){
+        $query = $this->db->query("SELECT * from bookslot where time={$time} and date='{$date}'");
+        return $query;
+    }
 
     function insert_data($data){
         $this->db->insert("bookslot",$data);
