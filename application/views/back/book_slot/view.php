@@ -10,12 +10,12 @@
    <div class="container-fluid">
      <div class="row mb-2">
        <div class="col-sm-6">
-         <h1>Customer Details</h1>
+         <h1>Client Details</h1>
        </div>
        <div class="col-sm-6">
          <ol class="breadcrumb float-sm-right">
            <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Home</a></li>
-           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Booking</a></li>
+           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Clients</a></li>
            <li class="breadcrumb-item active">Customer Details</li>
          </ol>
        </div>

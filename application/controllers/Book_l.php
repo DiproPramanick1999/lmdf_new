@@ -48,8 +48,8 @@
         $availability = $this->book_model->slot_check($date,$time);
         echo 20-$availability->num_rows();
     }
-      
-      
+
+
       function booking(){
         $userid = $this->session->userdata('userid');
         $username = $this->session->userdata('username');

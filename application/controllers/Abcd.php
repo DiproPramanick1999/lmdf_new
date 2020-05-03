@@ -7,7 +7,8 @@
 
     function index()
     {
-      $this->load->view("noti");
+      // $this->load->view("noti");
+      echo "string";
       // $userid = 1000;
       // $hex = dechex($userid);
       // echo $hex;
