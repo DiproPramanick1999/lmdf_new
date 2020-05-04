@@ -42,8 +42,7 @@
                    <center><img src="<?php echo base_url(); ?>back_static/profile/employee/<?php echo $pic; ?>" id="profile-pic" class="img-circle" style="width:200px;" alt=""> </center>
                  </div>
                  <div class="col-md-6" style="margin-top:50px;">
-                   <center><button type="button" class="btn btn-default" name="button" data-toggle="modal" data-target="#exampleModal" onclick="startCam()">Open Camera</button>
-                   <button type="button" class="btn btn-default" onclick="upload()" name="button">Upload</button></center>
+                   <center><button type="button" class="btn btn-default" name="button" data-toggle="modal" data-target="#exampleModal" onclick="startCam()">Change Photo</button>
                  </div>
                </div>
 
@@ -80,8 +79,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="savePhoto()">Save</button>
-        <button type="button" class="btn btn-primary" id="snap">Capture</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="snap">Capture</button>
       </div>
       <script type="text/javascript">
           var img;
@@ -105,6 +103,8 @@
           // Trigger photo take
           document.getElementById("snap").addEventListener("click", function() {
             context.drawImage(video, 0, 0, 200, 200);
+            savePhoto();
+            upload();
           });
 
           function savePhoto() {
