@@ -111,6 +111,9 @@
        <?php
          if ($user['type'] == "user") {
         ?>
+        <?php
+          if ($user['status'] == "Active") {
+         ?>
         <div class="col-lg-3 col-12" style="cursor:pointer;" onclick="window.location.href='book_l/'">
           <!-- small box -->
           <div class="small-box bg-success">
@@ -153,6 +156,7 @@
           <a href="<?php echo base_url(); ?>/book_l/history" class="small-box-footer">Click To Add <i class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div>
+      <?php } ?>
        <?php } ?>
 
      </div>

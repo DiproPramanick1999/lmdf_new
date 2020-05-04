@@ -78,7 +78,7 @@
                                 <div class="form-group">
                                     <label for="password">Password</label>
                                     <?php echo form_error("password"); ?>
-                                    <input class="form-control" type="password" name="password" id="password" placeholder="Enter Password" >
+                                    <input class="form-control" type="password" name="password" pattern="^[a-zA-Z0-9,_.%/\#!@%*() ]*$" id="password" placeholder="Enter Password" >
                                 </div>
 
                             </div>

@@ -118,6 +118,13 @@
         }
       }
 
+      function visitors()
+      {
+        $this->load->helper("counter");
+        $data['visitors'] = count_show();
+        $this->load->view("back/visitors/view",$data);
+      }
+
     }
 
 

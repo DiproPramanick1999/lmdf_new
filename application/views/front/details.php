@@ -55,6 +55,7 @@
             <div class="text-center px-lg-5">
                 <h3 class="heading text-center mb-3 mb-sm-5">Register Details</h3>
                 <p>All fields are compulsory</p>
+                <p>Do not use characters like ' or "</p>
             </div>
             <div class="contact-w3pvt-form mt-5">
                 <form class="w3layouts-contact-fm" method="post" action="<?php echo base_url(); ?>home_l/detailCheck/<?php echo $detail_id; ?>">
@@ -85,7 +86,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="address">Address</label>
-                                        <input class="form-control" type="text" min="1" name="address" id="address" placeholder="Enter Address" required>
+                                        <input class="form-control" type="text" min="1" pattern="^[a-zA-Z0-9,_.%/\#!@%*() ]*$" name="address" id="address" placeholder="Enter Address" required>
                                     </div>
                                   </div>
                                 </div>
@@ -93,7 +94,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input class="form-control" type="email" min="1" name="email" id="email" placeholder="Enter Email" required>
+                                        <input class="form-control" type="email" pattern="^[a-zA-Z0-9_.@!*]*$" min="1" name="email" id="email" placeholder="Enter Email" required>
                                     </div>
                                   </div>
                                   <div class="col-lg-6">
@@ -112,7 +113,7 @@
                                       <div class="col-lg-6">
                                           <div class="form-group">
                                               <label for="emerName">Emergency Contact Person Name</label>
-                                              <input class="form-control" type="text"  name="emerName" id="emerName" placeholder="Enter Emergency Contact Name" required>
+                                              <input class="form-control" type="text" pattern="^[a-zA-Z ]*$"  name="emerName" id="emerName" placeholder="Enter Emergency Contact Name" required>
                                           </div>
                                         </div>
                                       </div>
@@ -120,7 +121,7 @@
                                           <div class="col-lg-12">
                                               <div class="form-group">
                                                   <label for="verificaton">Relationship with Emergency Contact</label>
-                                                  <input class="form-control" type="text" min="1" name="relation" id="relation" placeholder="Relationship with Emergency Contact" required>
+                                                  <input class="form-control" type="text" min="1" pattern="^[a-zA-Z ]*$" name="relation" id="relation" placeholder="Relationship with Emergency Contact" required>
                                               </div>
                                             </div>
                                           </div>
@@ -436,7 +437,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="other">Any other health issues</label>
-                                                <input class="form-control" type="text"  name="other" id="other" placeholder="Any other health issues" required>
+                                                <input class="form-control" type="text" pattern="^[a-zA-Z0-9,_.%/\#!@%*() ]*$"  name="other" id="other" placeholder="Any other health issues" required>
                                             </div>
                                           </div>
 
@@ -447,13 +448,13 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="password">Password</label>
-                                                    <input class="form-control" onkeyup="passCheck()" type="password" name="password" id="password" placeholder="Enter Password" required>
+                                                    <input class="form-control" onkeyup="passCheck()" pattern="^[a-zA-Z0-9,_.%/\#!@%*() ]*$" type="password" name="password" id="password" placeholder="Enter Password" required>
                                                 </div>
                                               </div>
                                               <div class="col-lg-6">
                                                   <div class="form-group">
                                                       <label for="Cpassword">Confirm Password</label>
-                                                      <input class="form-control" onkeyup="passCheck()" type="password" name="Cpassword" id="Cpassword" placeholder="Enter Confirm Password"required>
+                                                      <input class="form-control" onkeyup="passCheck()" pattern="^[a-zA-Z0-9,_.%/\#!@%*() ]*$" type="password" name="Cpassword" id="Cpassword" placeholder="Enter Confirm Password"required>
                                                   </div>
                                                 </div>
                                               </div>

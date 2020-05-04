@@ -836,7 +836,7 @@
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-dumbbell"></i>
             <p>
-              Workouts<?php echo $user['type']; ?>
+              Workouts
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
@@ -849,7 +849,7 @@
             </li>
           </ul>
         </li>
-
+        <?php if ($user["status"] == "Active"){ ?>
         <li class="nav-item">
           <a href="<?php echo base_url(); ?>book_l" class="nav-link">
             <i class="fas fa-plus nav-icon"></i>
@@ -868,6 +868,7 @@
             <p>Booking History</p>
           </a>
         </li>
+      <?php } ?>
       <?php } ?>
 
 
@@ -948,6 +949,14 @@
   <?php } ?>
 
   <li class="nav-header">SETTINGS</li>
+  <?php if ($user["type"] == "admin"){ ?>
+    <li class="nav-item">
+      <a href="<?php echo base_url() ?>dashboard/visitors" class="nav-link">
+        <i class="fas fa-globe"></i>
+        <p class="text">Visitors</p>
+      </a>
+    </li>
+  <?php } ?>
   <li class="nav-item">
     <a href="<?php echo base_url() ?>/home/logout" class="nav-link">
       <i class="fas fa-sign-out-alt"></i>
