@@ -59,6 +59,16 @@
         $this->form_validation->set_rules("verification","Verification", "trim|required");
         $this->form_validation->set_rules("email","Email", "required|valid_email|is_unique[employee.email]");
         $this->form_validation->set_rules("mobile","Mobile", "required|is_unique[employee.phone]|min_length[10]|max_length[10]");
+        $sch = $this->input->post("scheduleRadio");
+        if ($sch == 1) {
+          $this->form_validation->set_rules("ftimein","First Schedule Time In", "trim|required");
+          $this->form_validation->set_rules("ftimeout","First Schedule Time Out", "trim|required");
+        }elseif ($sch == 2) {
+          $this->form_validation->set_rules("ftimein","First Schedule Time In", "trim|required");
+          $this->form_validation->set_rules("ftimeout","First Schedule Time Out", "trim|required");
+          $this->form_validation->set_rules("stimein","Second Schedule Time In", "trim|required");
+          $this->form_validation->set_rules("stimeout","Second Schedule Time Out", "trim|required");
+        }
         $details = array(
           'employeeid' => $this->employee_model->get_new_id(),
           'name' => $this->input->post('name'),
@@ -69,10 +79,15 @@
           'salary' => $this->input->post('salary'),
           'doj' => $this->input->post('doj'),
           'verification' => $this->input->post('verification'),
-          'sch' => 0
+          'sch' => $sch,
+          'ftimein' => $this->input->post("ftimein"),
+          'ftimeout' => $this->input->post("ftimeout"),
+          'stimein' => $this->input->post("stimein"),
+          'stimeout' => $this->input->post("stimeout"),
         );
         if ($this->form_validation->run()) {
           $employeeid = $this->employee_model->add_new_employee($details);
+          echo $employeeid;
           $data = json_decode(json_encode($this->employee_model->get_employee_data($employeeid)), true);
           $this->load->view('back/employee/photo',$data);
         }else{
@@ -155,6 +170,22 @@
         // echo $employeeid;
         echo "hello";
         $this->load->view("back/book_slot/view");
+      }
+
+      function view()
+      {
+        $this->load->helper("url");
+        $url = $this->uri->segment_array();
+        $id = end($url);
+        echo $id;
+      }
+
+      function dp()
+      {
+        $this->load->helper('url');
+        $this->load->model('employee_model');
+        $data = json_decode(json_encode($this->employee_model->get_employee_data($this->session->userdata("userid"))), true);
+        $this->load->view('back/employee/photo',$data);
       }
 
     }

@@ -175,6 +175,71 @@
                   <label class="col-form-label" for="inputSuccess">Aadhar/Passport ID Number <span style="color:red">*</span></label>
                     <input type="text" name="verification" class="form-control" id="inputSuccess" placeholder="Enter Verification Details" value="<?php echo $this->session->flashdata("verification"); ?>">
                 </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Schedule<span style="color:red">*</span></label>
+                      <div class="custom-control custom-radio" onchange="scheduleFun()">
+                        <input class="custom-control-input radio-schedule" type="radio" value="0" id="customRadio1" name="scheduleRadio" checked>
+                        <label for="customRadio1" class="custom-control-label">None</label>
+                      </div>
+                      <div class="custom-control custom-radio" onchange="scheduleFun()">
+                        <input class="custom-control-input radio-schedule" type="radio" value="1" id="customRadio2" name="scheduleRadio">
+                        <label for="customRadio2" class="custom-control-label">Once</label>
+                      </div>
+                      <div class="custom-control custom-radio" onchange="scheduleFun()">
+                        <input class="custom-control-input radio-schedule" type="radio" value="2" id="customRadio3" name="scheduleRadio">
+                        <label for="customRadio3" class="custom-control-label">Twice</label>
+                      </div>
+                    </div>
+                    <script type="text/javascript">
+                        function scheduleFun() {
+                          var sch = $("input[name='scheduleRadio']:checked").val();
+                          if (sch == 0) {
+                            $(".ftime").hide();
+                            $(".stime").hide();
+                          }else if (sch == 1) {
+                            $(".ftime").show();
+                            $(".stime").hide();
+                          }else{
+                            $(".ftime").show();
+                            $(".stime").show();
+                          }
+                        }
+                        scheduleFun();
+                    </script>
+                  </div>
+                </div>
+                <div class="row ftime" style="display:none;">
+                  <div class="col-sm-6">
+                    <!-- text input -->
+                    <div class="form-group">
+                      <label>First Schedule Time In<span style="color:red">*</span> </label>
+                      <input type="time" id="ftimein" name="ftimein" class="form-control" placeholder="Time In">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>First Schedule Time Out<span style="color:red">*</span> </label>
+                      <input type="time" id="ftimeout" name="ftimeout" class="form-control" placeholder="Time In">
+                    </div>
+                  </div>
+                </div>
+                <div class="row stime" style="display:none;">
+                  <div class="col-sm-6">
+                    <!-- text input -->
+                    <div class="form-group">
+                      <label>Second Schedule Time In<span style="color:red">*</span> </label>
+                      <input type="time" id="stimein" name="stimein" class="form-control" placeholder="Time In">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Second Schedule Time Out<span style="color:red">*</span> </label>
+                      <input type="time" id="stimeout" name="stimeout" class="form-control" placeholder="Time In">
+                    </div>
+                  </div>
+                </div>
                 <div class="card-footer">
                   <button type="submit" class="btn btn-info float-right btn-block">Next</button>
                 </div>
