@@ -153,8 +153,6 @@
         $url = ($this->uri->segment_array());
         $employeeid = end($url);
         // echo $employeeid;
-        echo "hello";
-        $this->load->view("back/book_slot/view");
       }
 
     }
