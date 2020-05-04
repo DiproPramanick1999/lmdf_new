@@ -3,6 +3,8 @@
   class Home extends CI_Controller {
     public function index()
     {
+      $this->load->helper('counter');
+      count_visitor();
       $data = $this->pricing_content();
       $this->load->helper('url');
       $this->load->view('front/index',$data);

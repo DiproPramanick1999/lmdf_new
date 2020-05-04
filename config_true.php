@@ -23,8 +23,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/gym_l/';
-// $config['base_url'] = 'http://192.168.0.100/gym_l';
+// $config['base_url'] = 'https://leonmaestrodefitness.com';
+$config['base_url']    = 'https://'.$_SERVER['HTTP_HOST'].'/';
+// $config['base_url'] = 'http://192.168.0.104/gym';
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -43,7 +44,7 @@ $config['index_page'] = '';
 |--------------------------------------------------------------------------
 |
 | This item determines which server global should be used to retrieve the
-| U/gym_l/RI string.  The default setting of 'REQUEST_URI' works for most servers.
+| URI string.  The default setting of 'REQUEST_URI' works for most servers.
 | If your links do not seem to work, try one of the other delicious flavors:
 |
 | 'REQUEST_URI'    Uses $_SERVER['REQUEST_URI']
@@ -521,4 +522,4 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
-$config['maintenance_mode'] = FALSE;
+$config['maintenance_mode'] = TRUE;
