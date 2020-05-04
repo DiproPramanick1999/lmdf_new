@@ -29,20 +29,22 @@
             'mode' => 'ctr',
           )
       );
+      $name = $details['name'];
+      $mobile = $details['mobile'];
+      $email =  $details['email'];
+      $type = $details['type'];
+      $dob = $details['dob'];
+      $salary = $details['salary'];
+      $doj = $details['doj'];
+      $verification = $details['verification'];
+      $sch = $details['sch'];
+      $ftimein = $details['ftimein'];
+      $ftimeout = $details['ftimeout'];
+      $stimetin = $details['stimein'];
+      $stimeout = $details['stimeout'];
       $password = $this->encryption->encrypt($id);
-      $query = $this->db->query("INSERT INTO employee (id,name,phone,type,email,dob,salary,joind,verification,password,sch,pic) VALUES(
-        {$id},
-       '".$details['name']."',
-        {$details['mobile']},
-        '{$details['type']}',
-        '{$details['email']}',
-        '{$details['dob']}',
-        {$details['salary']},
-        '{$details['doj']}',
-        '{$details['verification']}',
-        '{$password}',
-        {$details['sch']},
-        'default.png'
+      $query = $this->db->query("INSERT INTO employee (id,name,phone,type,email,dob,salary,joind,verification,password,sch,pic,ftimein,ftimeout,stimein,stimeout) VALUES(
+        {$id},'{$name}','{$mobile}','{$type}','{$email}','{$dob}',{$salary},'{$doj}','{$verification}','{$password}',{$sch},'default.png','{$ftimein}','{$ftimeout}','{$stimetin}','{$stimeout}'
       )");
       $query = $this->db->query("INSERT INTO login (id,password,type) values ({$id},'{$password}','{$details['type']}')");
       return $id;
