@@ -1,5 +1,8 @@
 <?php
   include __DIR__ . "/../header.php";
+if(!($user['type'] == "admin")){
+    redirect(base_url());
+  }
  ?>
 
 <section class="content-header">
@@ -28,7 +31,7 @@
              </div>
              <!-- /.card-header -->
              <div class="card-body">
-               <form role="form" method="post" action="<?php echo base_url()?>Plan/form_validation">
+               <form role="form" method="post" action="<?php echo base_url()?>Plan/form_validations">
                  <div class="row">
                   <?php
                    if($this->uri->segment(2) == 'inserted'){

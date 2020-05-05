@@ -10,13 +10,13 @@ if(!($user['type'] == "admin")){
    <div class="container-fluid">
      <div class="row mb-2">
        <div class="col-sm-6">
-         <h1>Plan Category Details</h1>
+         <h1>Plan Details</h1>
        </div>
        <div class="col-sm-6">
          <ol class="breadcrumb float-sm-right">
            <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Home</a></li>
-           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Plan Category</a></li>
-           <li class="breadcrumb-item active">Customer Details</li>
+           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Plans</a></li>
+           <li class="breadcrumb-item active">Plan Details</li>
          </ol>
        </div>
      </div>
@@ -45,9 +45,13 @@ if(!($user['type'] == "admin")){
                 <div class="card-body table-responsive p-0" style="height: 400px;">
                   <table id="customers">
                     <tr >
-                      <th>Plan Category</th>
+                      <th>Name</th>
+                      <th>Price</th>
+                      <th>Category</th>
+                      <th>Year</th>
+                      <th>Month</th>
                     </tr>
-                    <tbody id="table-body-employee" style="cursor:pointer;">
+                    <tbody id="table-body-plan" style="cursor:pointer;">
                     </tbody>
                   </table>
                 </div>
@@ -66,18 +70,18 @@ if(!($user['type'] == "admin")){
                     });
 
                     $("#btn1").click(function () {
-                         window.location.href="<?php echo base_url() ?>Plan/view";
+                         window.location.href="<?php echo base_url() ?>Plan/plan_view";
                     });
 
                  function getDetails() {
                    $.ajax({
                      type: "POST",
-                     url: "<?php echo base_url();?>Plan/details",
+                     url: "<?php echo base_url();?>Plan/plan_details",
                      data: {
                        'get_details' : $("#get_details").val()
                      },
                      success: function (msg) {
-                       $("#table-body-employee").html(msg);
+                       $("#table-body-plan").html(msg);
                      },
                      error: function () {
                        alert("error");
