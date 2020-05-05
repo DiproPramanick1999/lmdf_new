@@ -40,11 +40,11 @@
       $sch = $details['sch'];
       $ftimein = $details['ftimein'];
       $ftimeout = $details['ftimeout'];
-      $stimetin = $details['stimein'];
+      $stimein = $details['stimein'];
       $stimeout = $details['stimeout'];
       $password = $this->encryption->encrypt($id);
       $query = $this->db->query("INSERT INTO employee (id,name,phone,type,email,dob,salary,joind,verification,password,sch,pic,ftimein,ftimeout,stimein,stimeout) VALUES(
-        {$id},'{$name}','{$mobile}','{$type}','{$email}','{$dob}',{$salary},'{$doj}','{$verification}','{$password}',{$sch},'default.png','{$ftimein}','{$ftimeout}','{$stimetin}','{$stimeout}'
+        {$id},'{$name}','{$mobile}','{$type}','{$email}','{$dob}',{$salary},'{$doj}','{$verification}','{$password}',{$sch},'default.png','{$ftimein}','{$ftimeout}','{$stimein}','{$stimeout}'
       )");
       $query = $this->db->query("INSERT INTO login (id,password,type) values ({$id},'{$password}','{$details['type']}')");
       return $id;
@@ -84,6 +84,28 @@
         $query = $this->db->query("SELECT * FROM employee");
       }
       return $query;
+    }
+
+    function update_employee($details)
+    {
+      $id = $details['employeeid'];
+      $name = $details['name'];
+      $mobile = $details['mobile'];
+      $email =  $details['email'];
+      $type = $details['type'];
+      $dob = $details['dob'];
+      $salary = $details['salary'];
+      $doj = $details['doj'];
+      $verification = $details['verification'];
+      $sch = $details['sch'];
+      $ftimein = $details['ftimein'];
+      $ftimeout = $details['ftimeout'];
+      $stimein = $details['stimein'];
+      $stimeout = $details['stimeout'];
+      $query = $this->db->query("UPDATE employee SET name='{$name}',phone='{$mobile}',type='{$type}',email='{$email}',dob='{$dob}',salary={$salary},
+        joind='{$doj}', verification='{$verification}', sch={$sch}, ftimein='{$ftimein}', ftimeout='{$ftimeout}', stimein='{$stimein}', stimeout='{$stimeout}'
+        where id={$id}");
+
     }
   }
 
