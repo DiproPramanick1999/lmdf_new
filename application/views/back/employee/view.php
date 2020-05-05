@@ -81,7 +81,7 @@
                  getEmployees();
 
                  function viewEmployeeDetails(id) {
-                   window.location.href="<?php echo base_url() ?>employee/view/"+id;
+                   window.location.href="<?php echo base_url() ?>employee/details/"+id;
                  }
              </script>
 
