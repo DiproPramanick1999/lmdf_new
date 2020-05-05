@@ -4,7 +4,7 @@ if(!($user['type'] == "admin")){
     redirect(base_url());
   }
  ?>
- 
+
 <section class="content-header">
    <div class="container-fluid">
      <div class="row mb-2">
@@ -14,6 +14,7 @@ if(!($user['type'] == "admin")){
        <div class="col-sm-6">
          <ol class="breadcrumb float-sm-right">
            <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Home</a></li>
+           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>plan/view">Plan</a></li>
            <li class="breadcrumb-item active">Add Plan</li>
          </ol>
        </div>
@@ -33,6 +34,13 @@ if(!($user['type'] == "admin")){
              <div class="card-body">
                <form role="form" method="post" action="<?php echo base_url();?>Plan/add_plan">
                   <p style="color:red"><?php echo $this->session->flashdata("new_msg"); ?></p>
+                  <p style="color:green;"><?php
+                   $url = $this->uri->segment_array();
+                   $ins = end($url);
+                   if($ins == 'inserted'){
+                       echo '<p class="text-success">Plan Category has been added successfully</p>';
+                   }
+                   ?></p>
                   <div class="row">
                    <div class="col-sm-6">
                       <!-- text input -->
@@ -64,7 +72,7 @@ if(!($user['type'] == "admin")){
                                 {
                                     ?>
                                         <option value="<?php echo $row->category;?>"><?php echo $row->category;?></option>
-                                    
+
                                     <?php
                                 }
                             }
@@ -77,11 +85,11 @@ if(!($user['type'] == "admin")){
                                          $("buttn").attr("disabled", "disabled");
                                      }
                                     check();
-                            
+
                                 </script>
                                 <?php
-                                
-                                
+
+
                             }
                             ?>
                         </select>
@@ -121,7 +129,7 @@ if(!($user['type'] == "admin")){
                           <option value="9">9</option>
                           <option value="10">10</option>
                           <option value="11">11</option>
-                          
+
                         </select>
                       </div>
                     </div>
@@ -130,7 +138,7 @@ if(!($user['type'] == "admin")){
 
 
 
-              <div class="col-md-10">
+              <div class="col-md-12">
                   <button type="submit" name="insert" value="Insert" id="buttn" class="btn btn-info float-right btn-block">Add Plan</button>
                 </div>
                </form>

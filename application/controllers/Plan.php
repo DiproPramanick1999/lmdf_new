@@ -2,13 +2,13 @@
 
 class Plan extends CI_Controller{
 
-function index()
+function categoryAdd()
 {
     $this->load->helper("url");
     $this->load->view("back/plans/plan_category");
-    
+
 }
-    
+
 function form_validations()
 {
     $this->load->library('form_validation');
@@ -21,24 +21,19 @@ function form_validations()
             "edit" => 0
         );
         $this->Plan_model->insert_data($data);
-        redirect(base_url() . "Plan/inserted");
+        redirect(base_url() . "Plan/categoryadd/inserted");
     }
     else
     {
-        $this->index();
+        $this->categoryAdd();
     }
-    
+
 }
-    
-function inserted()
-{
-    $this->index();
-}
-    
-function view(){
+
+function category(){
     $this->load->helper("url");
     $this->load->view("back/plans/view");
-}  
+}
 
 
 function details()
@@ -62,14 +57,14 @@ function details()
         echo $table;
 
 }
-    
+
 function add(){
     $this->load->helper("url");
     $this->load->model("Plan_model");
     $data["plan_cat"] = $this->Plan_model->sel_plan_category();
     $this->load->view("back/plans/plan_add",$data);
 }
-    
+
 function add_plan()
 {
     $this->load->library('form_validation');
@@ -90,23 +85,23 @@ function add_plan()
             "edit" => 0
         );
         $this->Plan_model->insert_plan($data);
-        redirect(base_url() . "Plan/add");
+        redirect(base_url() . "Plan/add/inserted");
     }
     else
     {
         $this->session->set_flashdata("new_msg","Please enter correct details.");
         redirect(base_url() . "Plan/add");
     }
-    
+
 }
 
-function plan_view(){
+function view(){
     $this->load->helper("url");
     $this->load->view("back/plans/plan_view");
-}  
-    
-    
-    
+}
+
+
+
 function plan_details()
 {
     $this->load->helper('url');
@@ -131,7 +126,7 @@ function plan_details()
         }
         echo $table;
 }
-    
+
 }
 
 ?>
