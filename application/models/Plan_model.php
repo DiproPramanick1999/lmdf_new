@@ -48,8 +48,27 @@ function fetch_plan_data($get_details)
         }
     
 }
+    
+function PlanCatData($id)
+{
+    $query = $this->db->query("SELECT * FROM plan_category WHERE id ={$id}");
+    return $query;
+}
 
+function UpdatePlanCat($data)
+{
+    $id = $data['id'];
+    $category = $data['category'];
+    $query = $this->db->query("UPDATE plan_category SET category='{$category}' WHERE id={$id}");
+    
+}
 
+function DeletePlanCat($data)
+{
+    $id = $data['id'];
+    $query = $this->db->query("DELETE FROM plan_category WHERE id={$id}");
+    
+}
 
 }
 

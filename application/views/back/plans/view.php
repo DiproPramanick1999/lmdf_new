@@ -42,6 +42,17 @@ if(!($user['type'] == "admin")){
                   </div>
                 </div>
                 <!-- /.card-header -->
+                <?php
+                   $url = $this->uri->segment_array();
+                   $ins = end($url);
+                   if($ins == 'notUpdated'){
+                       echo '<p class="text-danger">Plan Category has not been Updated</p>';
+                   }
+                  else if($ins == 'Updated'){
+                      echo '<p class="text-success">Plan Category has been Updated</p>';
+                  }
+                   ?>
+                   
                 <div class="card-body table-responsive p-0" style="height: 400px;">
                   <table id="customers">
                     <tr >
@@ -85,6 +96,11 @@ if(!($user['type'] == "admin")){
                    });
                  }
                  getDetails();
+                 
+                 function viewPlanCat(id)
+                 {
+                     window.location.href="<?php echo base_url() ?>Plan/updatePlanCat/"+id;
+                 }
 
              </script>
 

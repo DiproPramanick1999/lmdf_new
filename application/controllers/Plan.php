@@ -45,7 +45,7 @@ function details()
         $table = "";
         if ($query->num_rows()>0) {
           foreach ($query->result() as $row) {
-            $table .= "<tr>";
+            $table .= "<tr onclick='viewPlanCat({$row->id})'>";
             $table .= "<td>{$row->category}</td>";
             $table .= "</tr>";
           }
@@ -57,6 +57,51 @@ function details()
         echo $table;
 
 }
+    
+function updatePlanCat(){
+    $this->load->helper('url');
+    $url = ($this->uri->segment_array());
+    $planCatid = end($url);
+    $this->load->model("Plan_model");
+    $data["planCatData"]=$this->Plan_model->PlanCatData($planCatid);
+    $this->load->view("back/plans/plan_cat_update",$data);
+    
+    
+}
+    
+function palnCatUpdate(){
+    $this->load->helper('url');
+    $this->load->model('Plan_model');
+    if($this->input->post('update') != '')
+    {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('plancat','Plan Category','required|is_unique[plan_category.category]');
+        if($this->form_validation->run())
+        {
+            $data=array(
+            'id'=>$this->input->post("id"),
+            'category'=>$this->input->post("plancat")
+            );
+            $this->Plan_model->UpdatePlanCat($data);
+            redirect(base_url() . "Plan/category/Updated");
+        }
+        else
+        {
+            redirect(base_url() . "Plan/category/notUpdated");
+        }
+    }
+    else if($this->input->post('delete') != '')
+    {
+      $data=array(
+            'id'=>$this->input->post("id")
+          );
+      $this->Plan_model->DeletePlanCat($data);
+      $this->load->view("back/plans/view");
+        
+    }
+    
+}
+
 
 function add(){
     $this->load->helper("url");
