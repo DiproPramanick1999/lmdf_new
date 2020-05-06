@@ -4,7 +4,7 @@ if(!($user['type'] == "admin")){
     redirect(base_url());
   }
  ?>
- 
+
 
 <section class="content-header">
    <div class="container-fluid">
@@ -15,24 +15,23 @@ if(!($user['type'] == "admin")){
        <div class="col-sm-6">
          <ol class="breadcrumb float-sm-right">
            <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Home</a></li>
-           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Plans</a></li>
-           <li class="breadcrumb-item active">Plan Details</li>
+           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>plan/view">Plans</a></li>
+           <li class="breadcrumb-item active">View</li>
          </ol>
        </div>
      </div>
    </div><!-- /.container-fluid -->
  </section>
 
-    <section class="content" >
+    <section class="content"  style="margin-top:20px;">
         <div class="container-fluid">
-          <button class="btn btn-dark" id="btn1" style="margin-bottom:10px;">Get All Details</button>
           <div class="row">
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
                   <!-- <h3 class="card-title">Fixed Header Table</h3> -->
                   <div class="card-tools">
-                    <div class="input-group input-group-sm" style="width: 250px;">
+                    <div class="input-group input-group-sm" style="width: 100%;" onkeyup="getDetails()">
                       <input type="text" name="table_search" id="get_details" class="form-control float-right" placeholder="Search">
 
                       <div class="input-group-append">

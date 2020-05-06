@@ -393,6 +393,54 @@
             </a>
           </li>
 
+          <li class="nav-item has-treeview">
+           <a href="#" class="nav-link">
+             <i class="nav-icon fas fa-book"></i>
+             <p>
+               Plan Category
+               <i class="fas fa-angle-left right"></i>
+             </p>
+           </a>
+           <ul class="nav nav-treeview">
+             <li class="nav-item">
+               <a href="<?php echo base_url(); ?>plan/categoryAdd" class="nav-link">
+                 <i class="fas fa-plus nav-icon"></i>
+                 <p>Add Plan Category</p>
+               </a>
+             </li>
+             <li class="nav-item">
+               <a href="<?php echo base_url(); ?>plan/category" class="nav-link">
+                 <i class="fas fa-binoculars nav-icon"></i>
+                 <p>View Plan Category</p>
+               </a>
+             </li>
+           </ul>
+         </li>
+
+         <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+            <i class="fas fa-book-open nav-icon"></i></i>
+            <p>
+              Plans
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="<?php echo base_url(); ?>plan/add" class="nav-link">
+                <i class="fas fa-plus nav-icon"></i>
+                <p>Add Plans</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo base_url(); ?>plan/view" class="nav-link">
+                <i class="fas fa-binoculars nav-icon"></i>
+                <p>View Plans</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
 
           <!-- <li class="nav-item has-treeview">
             <a href="#" class="nav-link">

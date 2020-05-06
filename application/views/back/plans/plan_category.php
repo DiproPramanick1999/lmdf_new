@@ -14,6 +14,7 @@ if(!($user['type'] == "admin")){
        <div class="col-sm-6">
          <ol class="breadcrumb float-sm-right">
            <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Home</a></li>
+           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>plan/view">Plan Category</a></li>
            <li class="breadcrumb-item active">Add Plan Category</li>
          </ol>
        </div>
@@ -24,7 +25,7 @@ if(!($user['type'] == "admin")){
  <section class="content">
    <div class="container-fluid">
      <div class="row">
-         <div class="col-md-8">
+         <div class="col-md-6">
            <div class="card card-warning">
              <div class="card-header">
                <h3 class="card-title">Add Plan Category</h3>
@@ -34,11 +35,13 @@ if(!($user['type'] == "admin")){
                <form role="form" method="post" action="<?php echo base_url()?>Plan/form_validations">
                  <div class="row">
                   <?php
-                   if($this->uri->segment(2) == 'inserted'){
-                       echo '<p class="text-success">Plan has been added successfully</p>';
+                   $url = $this->uri->segment_array();
+                   $ins = end($url);
+                   if($ins == 'inserted'){
+                       echo '<p class="text-success">Plan Category has been added successfully</p>';
                    }
                    ?>
-                   <div class="col-sm-10">
+                   <div class="col-sm-12">
                      <!-- select -->
                      <div class="form-group">
                           <input type="text" name="plancat" class="form-control" placeholder="Enter Plan Category">
@@ -49,10 +52,15 @@ if(!($user['type'] == "admin")){
 
 
 
-              <div class="col-md-10">
+              <div class="col-md-12">
                   <button type="submit" name="insert" value="Insert" id="buttn" class="btn btn-info float-right btn-block">Add Plan Category</button>
                 </div>
                </form>
+              <div class="row">
+                <div class="col-md-12"  style="margin-top:10px;">
+                      <button class="btn btn-dark btn-block" onclick="window.location.href='category'">View Plan Category</button>
+                  </div>
+              </div>
              </div>
              <!-- /.card-body -->
            </div>
