@@ -25,6 +25,7 @@ if(!($user['type'] == "admin")){
 
     <section class="content"  style="margin-top:20px;">
         <div class="container-fluid">
+          <button class="btn btn-dark" onclick="window.location.href='add'">Add Plan</button>  
           <div class="row">
             <div class="col-12">
               <div class="card">

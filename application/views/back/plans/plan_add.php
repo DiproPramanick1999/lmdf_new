@@ -142,6 +142,11 @@ if(!($user['type'] == "admin")){
                   <button type="submit" name="insert" value="Insert" id="buttn" class="btn btn-info float-right btn-block">Add Plan</button>
                 </div>
                </form>
+               <div class="row">
+                 <div class="col-md-12"  style="margin-top:10px;">
+                       <button class="btn btn-dark btn-block" onclick="window.location.href='view'">View Plans</button>
+                   </div>
+               </div>
              </div>
              <!-- /.card-body -->
            </div>
