@@ -131,7 +131,7 @@
                                                 <div class="form-group">
                                                     <label for="nationality">Nationality</label>
                                                     <select style="" id="nationality" name="nationality" class="form-control">
-                                                      <option value="AF">Afghanistan</option>
+                                                          <option value="AF">Afghanistan</option>
                                                         	<option value="AX">Åland Islands</option>
                                                         	<option value="AL">Albania</option>
                                                         	<option value="DZ">Algeria</option>

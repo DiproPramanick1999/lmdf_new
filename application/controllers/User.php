@@ -30,6 +30,70 @@
       }
       echo "success";
     }
-  
+
+    // View Add UI
+    function add()
+    {
+      $this->load->helper('url');
+      $this->load->model("user_model");
+      $data['nations'] = $this->user_model->getAllNations();
+      $data['id'] = $this->user_model->get_new_id();
+      $plan_category = $this->user_model->get_plan_category();
+      if ($plan_category->num_rows()>0) {
+        $data['plan_category'] = $plan_category->result();
+      }else {
+        $data['plan_category'] = array("No Plan Category");
+      }
+      $this->load->view("back/users/user_add",$data);
+    }
+    // Add Validation
+    function user_add()
+    {
+      echo $this->input->post("nationality");
+      echo "<br>";
+      echo $this->input->post("joind");
+      echo "<br>";
+      echo $this->input->post("discp");
+    }
+    // To validate the mobile number
+    function mobile_validate()
+    {
+      $this->load->helper('url');
+      $this->load->library("form_validation");
+      $this->form_validation->set_rules("mobile","Mobile", "required|is_unique[user.phone]|min_length[10]|max_length[10]");
+      if ($this->form_validation->run()) {
+        echo "success";
+      }else{
+        echo "error";
+      }
+    }
+    // To validate the email id
+    function email_validate()
+    {
+      $this->load->helper('url');
+      $this->load->library("form_validation");
+      $this->form_validation->set_rules("email","Email", "required|valid_email|is_unique[user.email]");
+      if ($this->form_validation->run()) {
+        echo "success";
+      }else{
+        echo "error";
+      }
+    }
+
+    function get_plans()
+    {
+      $planC = $_POST['planC'];
+      $this->load->model("user_model");
+      $query = $this->user_model->get_plans($planC);
+      if ($query->num_rows()>0) {
+        $output = "";
+        foreach ($query->result() as $row) {
+          $output .= "<option>{$row->name}</option>";
+        }
+        echo $output;
+      }else {
+        echo "<option>No Plan</option>";
+      }
+    }
   }
  ?>
