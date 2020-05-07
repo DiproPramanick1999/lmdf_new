@@ -34,6 +34,16 @@ if(!($user['type'] == "admin")){
              <div class="card-body">
                <form role="form" method="post" action="<?php echo base_url()?>Plan/palnCatUpdate">
                  <div class="row">
+                  <?php 
+                        $url = $this->uri->segment_array();
+                        $id = $this->uri->segment(3);
+                        $ins = end($url);
+                        if($ins == 'notUpdated'){
+//                                     redirect(base_url() . "Plan/updatePlanCat/".$id);
+                            echo '<p class="text-danger">Plan Category has not been updated.Please fill the details properly.</p>';
+                   }
+                    
+                     ?>
                    <div class="col-sm-12">
                      <!-- select -->
                      <div class="form-group">
