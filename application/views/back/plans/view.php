@@ -45,10 +45,7 @@ if(!($user['type'] == "admin")){
                 <?php
                    $url = $this->uri->segment_array();
                    $ins = end($url);
-                   if($ins == 'notUpdated'){
-                       echo '<p class="text-danger">Plan Category has not been Updated</p>';
-                   }
-                  else if($ins == 'Updated'){
+                   if($ins == 'Updated'){
                       echo '<p class="text-success">Plan Category has been Updated</p>';
                   }
                    ?>

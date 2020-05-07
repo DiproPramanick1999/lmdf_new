@@ -60,8 +60,8 @@ function details()
     
 function updatePlanCat(){
     $this->load->helper('url');
-    $url = ($this->uri->segment_array());
-    $planCatid = end($url);
+    $url = ($this->uri->segment(3));
+    $planCatid = $url;
     $this->load->model("Plan_model");
     $data["planCatData"]=$this->Plan_model->PlanCatData($planCatid);
     $this->load->view("back/plans/plan_cat_update",$data);
@@ -87,7 +87,7 @@ function palnCatUpdate(){
         }
         else
         {
-            redirect(base_url() . "Plan/category/notUpdated");
+            redirect(base_url() . "Plan/updatePlanCat/".$this->input->post("id")."/notUpdated");
         }
     }
     else if($this->input->post('delete') != '')
