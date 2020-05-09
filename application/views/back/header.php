@@ -87,9 +87,22 @@
   height: 100%;
 }
 
+#loading-me{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background: #fff
+      url('<?php echo base_url(); ?>back_static/images/loader.gif')
+      no-repeat center;
+  z-index: 9999;
+}
+
   </style>
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed" onload="endLoad()">
+<div id="loading-me">
+
+</div>
 <div class="wrapper">
 
   <!-- Navbar -->

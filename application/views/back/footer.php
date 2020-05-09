@@ -50,5 +50,11 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="<?php echo base_url(); ?>back_static/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>back_static/dist/js/demo.js"></script>
+<script type="text/javascript">
+  let preloader_me = document.getElementById('loading-me');
+  function endLoad() {
+    preloader_me.style.display = 'none';
+  }
+</script>
 </body>
 </html>

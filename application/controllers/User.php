@@ -95,5 +95,53 @@
         echo "<option>No Plan</option>";
       }
     }
+
+    function getPlanDetails()
+    {
+      $plan = $_POST["plan"];
+      $planc = $_POST["planC"];
+      $this->load->model("user_model");
+      $query = $this->user_model->get_plan_details($planc,$plan);
+      if ($query->num_rows()>0) {
+        echo json_encode($query->result());
+      }else{
+        echo "error";
+      }
+    }
+
+    function get_trainers()
+    {
+      $this->load->model("user_model");
+      $query = $this->user_model->get_trainers();
+      if ($query->num_rows()>0) {
+        $output = "";
+        foreach ($query->result() as $row) {
+          $name = ucwords(strtolower($row->name));
+          $output .= "<option value='{$row->id}'>{$name}</option>";
+        }
+        echo $output;
+      }
+    }
+
+    function get_trainers_time()
+    {
+      $this->load->model("user_model");
+      $trainer = $_POST["trainer"];
+      $query = $this->user_model->get_trainers_time($trainer);
+      if ($query->num_rows()>0) {
+        $output = "";
+        foreach ($query->result() as $row) {
+          if ($row->sch == 0) {
+            $output .= "<option>None</option>";
+          }elseif ($row->sch == 1) {
+            $output .= "<option>{$row->ftimein}</option>";
+          }else {
+            $output .= "<option>{$row->ftimein}</option>";
+            $output .= "<option>{$row->stimein}</option>";
+          }
+        }
+        echo $output;
+      }
+    }
   }
  ?>
