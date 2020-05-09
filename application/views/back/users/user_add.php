@@ -70,7 +70,6 @@
                                 'mobile' : $("#mobile").val()
                               },
                               success: function(msg) {
-                                console.log(msg);
                                 if (msg == "success") {
                                   $("#mobile_msg").text("");
                                   $("#mobile").addClass("is-valid");
@@ -270,12 +269,11 @@
                                 'planC' : planC
                               },
                               success : function(msg) {
-                                // console.log(msg);
                                 $("#plans").html(msg);
+                                getPlanDetails();
                               },
                               error   : function(msg) {
                                 alert("Server Busy.");
-                                // console.log(msg);
                               }
                             });
                           }
@@ -286,31 +284,84 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Plan Term <span style="color:red">*</span></label>
-                        <select class="form-control" id="plans" name="plan">
+                        <select class="form-control" onchange="getPlanDetails()" id="plans" name="plan">
                         </select>
                       </div>
                     </div>
                   </div>
+                  <script type="text/javascript">
+                    var years = 0;
+                    var months = 0;
+                    var price = 0;
+                    function getPlanDetails() {
+                      var planC = $("#planC").val();
+                      var plan = $("#plans").val();
+                      if (planC == "No Plan Category") {
+                        alert("No Plan Category Added");
+                      }else if (plan == "No Plan") {
+                        alert("No Plans Added For The Category");
+                      }else {
+                        $.ajax({
+                          type: "POST",
+                          url : "<?php echo base_url(); ?>/user/getPlanDetails",
+                          data: {
+                            "planC" : planC,
+                            "plan" : plan
+                          },
+                          success: function (msg) {
+                            if (msg == "error") {
+                              alert("Database Error, Try Again Later");
+                            }else {
+                              var output = JSON.parse(msg)[0];
+                              years = parseInt(output["years"]);
+                              months = parseInt(output["months"]);
+                              expdDateChange();
+                              price = output["price"];
+                              $("#plan-price").val(price);
+                              $("#discc").val(price);
+                              $("#discp").val(0);
+                              $("#cash").val(price);
+                              $("#apc").val(price);
+                              $("#due").val(0)
+                            }
+                          },
+                          error: function(msg) {
+                            alert("Server Busy.");
+                          }
+                        });
+                      }
+                    }
+                    Date.prototype.toDateInputValue = (function() {
+                        var local = new Date(this);
+                        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+                        return local.toJSON().slice(0,10);
+                    });
+
+                    function expdDateChange() {
+                      // Converting years and months to total months
+                      var tot_month = 12*years + parseInt(months);
+                      // Finding Expired Date
+                      var joind = new Date($("#joind").val()+" 00:00:00");
+                      joind.setMonth(joind.getMonth()+tot_month);
+                      var joinM = joind.getMonth()+1;
+                      var joinD = joind.getDate()-1;
+                      var expd = joind.getFullYear() + "-" + (joinM<10?"0"+joinM:joinM) + "-" + (joinD<10?"0"+joinD:joinD);
+                      $("#expd").val(expd);
+                    }
+                  </script>
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Date of Joining <span style="color:red">*</span></label>
                         <div class="input-group">
-                          <input type="date" class="form-control" id="joind" name="joind" onchange="change_expd()">
+                          <input type="date" class="form-control" id="joind" name="joind" onchange="expdDateChange()">
                           <div class="input-group-append">
                             <div class="input-group-text"><i class="fas fa-calendar"></i></div>
                           </div>
                         </div>
                         <script type="text/javascript">
-                          Date.prototype.toDateInputValue = (function() {
-                              var local = new Date(this);
-                              local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-                              return local.toJSON().slice(0,10);
-                          });
+                        // To get todays date in IST
                           $('#joind').val(new Date().toDateInputValue());
-                          function change_expd() {
-                            console.log(new Date($("#joind").val()));
-                          }
                         </script>
                       </div>
                     </div>
@@ -330,17 +381,49 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Trainer <span style="color:red">*</span></label>
-                        <select class="form-control" name="trainer">
+                        <select class="form-control" id="trainer" name="trainer" onchange="getTrainerTimeSlot()">
                         </select>
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Time Slot <span style="color:red">*</span></label>
-                        <select class="form-control" name="time">
+                        <select class="form-control" name="time_slot" id="time_slot">
                         </select>
                       </div>
                     </div>
+                    <script type="text/javascript">
+                      function getTrainers() {
+                        $.ajax({
+                          type : "POST",
+                          url : "<?php echo base_url();?>user/get_trainers",
+                          success: function(msg){
+                            $("#trainer").html(msg);
+                            getTrainerTimeSlot();
+                          },
+                          error: function (msg) {
+                            alert("Server Busy");
+                          }
+                        });
+                      }
+                      getTrainers();
+
+                      function getTrainerTimeSlot() {
+                        $.ajax({
+                          type : "POST",
+                          url : "<?php echo base_url();?>user/get_trainers_time",
+                          data: {
+                            "trainer" : $("#trainer").val()
+                          },
+                          success: function(msg){
+                            $("#time_slot").html(msg);
+                          },
+                          error: function (msg) {
+                            alert("Server Busy");
+                          }
+                        });
+                      }
+                    </script>
                   </div>
                   <div class="row">
                     <div class="col-sm-6">
@@ -375,15 +458,59 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Discount Percentage<span style="color:red">*</span> </label>
-                        <input type="number" id="discp" name="discp" class="form-control" placeholder="Enter Percentage" value="0">
+                        <input type="number" id="discp" name="discp" class="form-control" onkeyup="discp_change()" placeholder="Enter Percentage" value="0">
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Cost to the Client<span style="color:red">*</span> </label>
-                        <input type="number" id="discc" name="discc" class="form-control" placeholder="Cost to the Client">
+                        <input type="number" id="discc" name="discc" class="form-control" onkeyup="discc_change()" placeholder="Cost to the Client">
                       </div>
                     </div>
+                    <script type="text/javascript">
+                      function discp_change() {
+                        let discp = parseInt($("#discp").val());
+                        $("#discp").val(discp);
+                        let discc = price;
+                        if (discp>100 || discp<0 || isNaN(discp)) {
+                          $("#discp").val(0);
+                          $("#discc").val(price);
+                          $("#cash").val(price);
+                          $("#card").val(0);
+                          $("#cheque").val(0);
+                          $("#online").val(0);
+                        }else {
+                          let ctc = discc - (discc*discp/100);
+                          $("#discc").val(ctc);
+                          $("#cash").val(ctc);
+                          $("#card").val(0);
+                          $("#cheque").val(0);
+                          $("#online").val(0);
+                        }
+                      }
+                      function discc_change() {
+                        let discc = parseInt($("#discc").val());
+                        if (discc>price) {
+                          $("#discp").val(0);
+                          var val = 0;
+                          $("#discc").val(price);
+                          $("#cash").val(price);
+                          $("#card").val(0);
+                          $("#cheque").val(0);
+                          $("#online").val(0);
+                          $("#apc").val(price);
+                        }else {
+                          var val = ((price-discc)/price)*100;
+                          $("#discc").val(discc);
+                          $("#cash").val(discc);
+                          $("#card").val(0);
+                          $("#cheque").val(0);
+                          $("#online").val(0);
+                          $("#apc").val(discc);
+                        }
+                        $("#discp").val(parseInt(val));
+                      }
+                    </script>
                   </div>
                   <div class="row">
                     <div class="col-sm-6">
@@ -395,7 +522,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Amount Paid By Card</label>
-                          <input type="number" id="card" name="card" class="form-control" placeholder="Amount Paid By Card">
+                          <input type="number" id="card" name="card" class="form-control" placeholder="Amount Paid By Card" value="0">
                         </div>
                     </div>
                   </div>
@@ -403,13 +530,13 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Amount Paid By Cheque</label>
-                          <input type="number" id="cheque" name="cheque" class="form-control" placeholder="Amount Paid By Cheque">
+                          <input type="number" id="cheque" name="cheque" class="form-control" placeholder="Amount Paid By Cheque" value="0">
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Amount Paid By Online</label>
-                          <input type="number" id="online" name="online" class="form-control" placeholder="Amount Paid By Online">
+                          <input type="number" id="online" name="online" class="form-control" placeholder="Amount Paid By Online" value="0">
                         </div>
                     </div>
                   </div>
@@ -417,13 +544,13 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Amount Paid By Client</label>
-                          <input type="number" id="apc" name="apc" class="form-control" placeholder="Amount Paid By Client">
+                          <input type="number" id="apc" name="apc" class="form-control" placeholder="Amount Paid By Client" disabled>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Due Amount</label>
-                          <input type="number" id="due" name="due" class="form-control" placeholder="Due Amount">
+                          <input type="number" id="due" name="due" class="form-control" placeholder="Due Amount" disabled>
                         </div>
                     </div>
                   </div>
@@ -432,13 +559,16 @@
                       <div class="form-group">
                         <label>Due Payment Date(if applicable)</label>
                         <div class="input-group">
-                          <input type="date" class="form-control" name="due_date" value="">
+                          <input type="date" class="form-control" name="due_date" value="" id="due_date">
                           <div class="input-group-append">
                             <div class="input-group-text"><i class="fas fa-calendar"></i></div>
                           </div>
                         </div>
                       </div>
                     </div>
+                    <script type="text/javascript">
+                      $('#due_date').val(new Date().toDateInputValue());
+                    </script>
                   </div>
                 </div>
               </div>

@@ -57,7 +57,7 @@ function details()
         echo $table;
 
 }
-    
+
 function updatePlanCat(){
     $this->load->helper('url');
     $url = ($this->uri->segment(3));
@@ -65,11 +65,11 @@ function updatePlanCat(){
     $this->load->model("Plan_model");
     $data["planCatData"]=$this->Plan_model->PlanCatData($planCatid);
     $this->load->view("back/plans/plan_cat_update",$data);
-    
-    
+
+
 }
-    
-function palnCatUpdate(){
+
+function planCatUpdate(){
     $this->load->helper('url');
     $this->load->model('Plan_model');
     if($this->input->post('update') != '')
@@ -97,9 +97,9 @@ function palnCatUpdate(){
           );
       $this->Plan_model->DeletePlanCat($data);
       $this->load->view("back/plans/view");
-        
+
     }
-    
+
 }
 
 

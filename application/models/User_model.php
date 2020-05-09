@@ -33,5 +33,23 @@
       $query = $this->db->get_where("plan",array('category' => $planC, ));
       return $query;
     }
+
+    function get_plan_details($planc,$plan)
+    {
+      $query = $this->db->query("SELECT price,years,months FROM plan where name='$plan' and category='$planc' ");
+      return $query;
+    }
+
+    function get_trainers()
+    {
+      $query = $this->db->query("SELECT id,name FROM employee where type='trainer' or type='admin'");
+      return $query;
+    }
+
+    function get_trainers_time($id)
+    {
+      $query = $this->db->query("SELECT sch,ftimein,stimein FROM employee WHERE id=$id ");
+      return $query;
+    }
   }
 ?>
