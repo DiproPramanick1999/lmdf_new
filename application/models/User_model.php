@@ -28,28 +28,54 @@
       return $query;
     }
 
-    function get_plans($planC)
+
+    function get_all_plans()
     {
-      $query = $this->db->get_where("plan",array('category' => $planC, ));
-      return $query;
+      $query = $this->db->get("plan");
+      $plans = array();
+      if ($query->num_rows()>0) {
+        foreach ($query->result() as $row) {
+          $plan = array(
+            // "name" => $row->name,
+            "price" => $row->price,
+            "years" => $row->years,
+            "months" => $row->months,
+          );
+          if (array_key_exists($row->category, $plans)) {
+            $plans[$row->category][$row->name] = $plan;
+          }else {
+            $plans[$row->category] = array(
+              $row->name => $plan,
+            );
+          }
+        }
+      }
+      return $plans;
     }
 
-    function get_plan_details($planc,$plan)
-    {
-      $query = $this->db->query("SELECT price,years,months FROM plan where name='$plan' and category='$planc' ");
-      return $query;
-    }
+
 
     function get_trainers()
     {
-      $query = $this->db->query("SELECT id,name FROM employee where type='trainer' or type='admin'");
-      return $query;
+      $query = $this->db->query("SELECT id,name,sch,ftimein,stimein FROM employee where type='trainer' or type='admin'");
+      $trainers = array();
+      if ($query->num_rows()>0) {
+        foreach ($query->result() as $row) {
+          $trainers[$row->id] = array(
+            "name" => $row->name,
+            "sch" => $row->sch,
+            "ftimein" => $row->ftimein,
+            "stimein" => $row->stimein,
+          );
+        }
+      }else {
+        $trainers["-1"] = array(
+          "name" => "No trainers",
+          "sch" => 0
+        );
+      }
+      return $trainers;
     }
 
-    function get_trainers_time($id)
-    {
-      $query = $this->db->query("SELECT sch,ftimein,stimein FROM employee WHERE id=$id ");
-      return $query;
-    }
   }
 ?>
