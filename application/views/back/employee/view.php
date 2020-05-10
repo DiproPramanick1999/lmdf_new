@@ -63,23 +63,13 @@
              <!-- /.card -->
              <script type="text/javascript">
                  function getEmployees() {
-                   $.ajax({
-                     type: "POST",
-                     url: "<?php echo base_url() ?>employee/getEmployees",
-                     data: {
-                       'search' : $("#search").val(),
-                     },
-                     success: function (msg) {
-                       console.log(msg);
-                       $("#table-body-employee").html(msg);
-                     },
-                     error: function () {
-                       alert("error");
-                     }
+                   var value = $("#search").val().toLowerCase();
+                   $("#table-body-employee tr").filter(function() {
+                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                    });
                  }
-                 getEmployees();
-
+                 var table = "<?php echo $employees; ?>";
+                 $("#table-body-employee").html(table);
                  function viewEmployeeDetails(id) {
                    window.location.href="<?php echo base_url() ?>employee/details/"+id;
                  }

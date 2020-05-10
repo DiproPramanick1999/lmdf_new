@@ -8,7 +8,24 @@
       public function index()
       {
         $this->load->helper('url');
-        $this->load->view('back/employee/view');
+        $this->load->model('employee_model');
+        $employees = $this->employee_model->get_all_employees();
+
+        $table = "";
+        if ($employees->num_rows()>0) {
+          foreach ($employees->result() as $row) {
+            $table .= "<tr onclick='viewEmployeeDetails({$row->id})'>";
+            $table .= "<td>{$row->id}</td>";
+            $table .= "<td>{$row->name}</td>";
+            $table .= "<td>{$row->phone}</td>";
+            $table .= "<td>{$row->type}</td>";
+            $table .= "</tr>";
+          }
+        }else{
+          $table .= "No Employees Available";
+        }
+        $data["employees"] = $table;
+        $this->load->view('back/employee/view',$data);
       }
 
       // To the add new employee page
@@ -148,28 +165,28 @@
       }
 
       // View Employees
-      function getEmployees()
-      {
-        $this->load->helper('url');
-        $search = $_POST['search'];
-        $this->load->model('employee_model');
-        $query = $this->employee_model->getEmployees($search);
-        $table = "";
-        if ($query->num_rows()>0) {
-          foreach ($query->result() as $row) {
-            $table .= "<tr onclick='viewEmployeeDetails({$row->id})'>";
-            $table .= "<td>{$row->id}</td>";
-            $table .= "<td>{$row->name}</td>";
-            $table .= "<td>{$row->phone}</td>";
-            $table .= "<td>{$row->type}</td>";
-            $table .= "</tr>";
-          }
-
-        }else{
-          $table .= "No Employees Available";
-        }
-        echo $table;
-      }
+      // function getEmployees()
+      // {
+      //   $this->load->helper('url');
+      //   $search = $_POST['search'];
+      //   $this->load->model('employee_model');
+      //   $query = $this->employee_model->getEmployees($search);
+      //   $table = "";
+      //   if ($query->num_rows()>0) {
+        //   foreach ($query->result() as $row) {
+        //     $table .= "<tr onclick='viewEmployeeDetails({$row->id})'>";
+        //     $table .= "<td>{$row->id}</td>";
+        //     $table .= "<td>{$row->name}</td>";
+        //     $table .= "<td>{$row->phone}</td>";
+        //     $table .= "<td>{$row->type}</td>";
+        //     $table .= "</tr>";
+        //   }
+        //
+        // }else{
+        //   $table .= "No Employees Available";
+        // }
+      //   echo $table;
+      // }
 
       // View Employee Details
 
