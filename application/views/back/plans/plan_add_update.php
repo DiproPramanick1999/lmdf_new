@@ -9,13 +9,13 @@
    <div class="container-fluid">
      <div class="row mb-2">
        <div class="col-sm-6">
-         <h1>Add Plan</h1>
+         <h1>Update Plan</h1>
        </div>
        <div class="col-sm-6">
          <ol class="breadcrumb float-sm-right">
            <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Home</a></li>
-           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>plan/view">Plan</a></li>
-           <li class="breadcrumb-item active">Add Plan</li>
+           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>plan/view">Update Plan</a></li>
+           <li class="breadcrumb-item active">Update Plan</li>
          </ol>
        </div>
      </div>
@@ -28,7 +28,7 @@
          <div class="col-md-8">
            <div class="card card-warning">
              <div class="card-header">
-               <h3 class="card-title">Add Plan</h3>
+               <h3 class="card-title">Update Plan</h3>
              </div>
              <!-- /.card-header -->
              <div class="card-body">
@@ -51,7 +51,7 @@
                     </div>
                  </div>
                  <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-6">
                       <!-- select -->
                       <div class="form-group">
                         <label>Plan category</label>
@@ -89,6 +89,17 @@
 
                             }
                             ?>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <!-- select -->
+                      <div class="form-group">
+                        <label>Tax</label>
+                        <select class="form-control" name="plan_tax_type">
+                          <option style="display:none;" value="<?php echo $planData->row()->tax_type;?>"><?php if($planData->row()->tax_type=='inclusive'){echo "Inclusive";}else{echo "Exclusive";}?></option>
+                          <option value="inclusive">Inclusive</option>
+                          <option value="exclusive">Exclusive</option>
                         </select>
                       </div>
                     </div>

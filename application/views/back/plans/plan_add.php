@@ -57,7 +57,7 @@ if(!($user['type'] == "admin")){
                     </div>
                  </div>
                  <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-6">
                       <!-- select -->
                       <div class="form-group">
                         <label>Plan category</label>
@@ -92,6 +92,17 @@ if(!($user['type'] == "admin")){
 
                             }
                             ?>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <!-- select -->
+                      <div class="form-group">
+                        <label>Tax</label>
+                        <select class="form-control" name="plan_tax_type">
+                          <option style="display:none;" value="">Select Inclusive/Non-Inclusive</option>
+                          <option value="inclusive">Inclusive</option>
+                          <option value="exclusive">Exclusive</option>
                         </select>
                       </div>
                     </div>
