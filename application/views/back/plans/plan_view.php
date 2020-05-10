@@ -89,6 +89,11 @@ if(!($user['type'] == "admin")){
                    });
                  }
                  getDetails();
+                 
+                 function viewPlan(id)
+                 {
+                     window.location.href="<?php echo base_url() ?>Plan/updatePlanAdd/"+id;
+                 }
 
              </script>
 
