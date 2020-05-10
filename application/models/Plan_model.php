@@ -75,9 +75,10 @@ function update_plan($data)
     $name = $data['name'];
     $price = $data['price'];
     $category = $data['category'];
+    $tax_type = $data['tax_type'];
     $years = $data['years'];
     $months = $data['months'];
-    $query = $this->db->query("UPDATE plan SET name='{$name}',price={$price},category='{$category}',years={$years},months={$months} WHERE id={$id}");
+    $query = $this->db->query("UPDATE plan SET name='{$name}',price={$price},category='{$category}',tax_type='{$tax_type}',years={$years},months={$months} WHERE id={$id}");
 }
 
 function DeletePlanCat($data)

@@ -116,6 +116,7 @@ function add_plan()
     $this->form_validation->set_rules("plan_name", "Enter Plan Name", "required");
     $this->form_validation->set_rules("plan_price", "Enter Plan Name", "trim|required|numeric");
     $this->form_validation->set_rules("plan_cat", "Enter Plan Name", "required");
+    $this->form_validation->set_rules("plan_tax_type", "Enter Plan Tax Type", "required");
     $this->form_validation->set_rules("plan_year", "Enter Plan Name", "required");
     $this->form_validation->set_rules("plan_month", "Enter Plan Name", "required");
     if($this->form_validation->run())
@@ -125,6 +126,7 @@ function add_plan()
             "name" => $this->input->post("plan_name"),
             "price" => $this->input->post("plan_price"),
             "category" => $this->input->post("plan_cat"),
+            "tax_type" => $this->input->post("plan_tax_type"),
             "years" => $this->input->post("plan_year"),
             "months" => $this->input->post("plan_month"),
             "edit" => 0
@@ -168,6 +170,7 @@ function update_add_plan(){
     $this->form_validation->set_rules("plan_name", "Enter Plan Name", "required");
     $this->form_validation->set_rules("plan_price", "Enter Plan Name", "trim|required|numeric");
     $this->form_validation->set_rules("plan_cat", "Enter Plan Name", "required");
+    $this->form_validation->set_rules("plan_tax_type", "Enter Plan Tax Type", "required");
     $this->form_validation->set_rules("plan_year", "Enter Plan Name", "required");
     $this->form_validation->set_rules("plan_month", "Enter Plan Name", "required");
     if($this->form_validation->run())
@@ -177,13 +180,14 @@ function update_add_plan(){
             "name" => $this->input->post("plan_name"),
             "price" => $this->input->post("plan_price"),
             "category" => $this->input->post("plan_cat"),
+            "tax_type" => $this->input->post("plan_tax_type"),
             "years" => $this->input->post("plan_year"),
             "months" => $this->input->post("plan_month"),
             "edit" => 0
         );
         $query1=$this->Plan_model->PlanData($data["id"]);
         $query = $this->Plan_model->check_plan_name($data["category"],$data["name"]);
-        if($query and $data["price"]==$query1->row()->price and $data["years"]==$query1->row()->years and $data["months"]==$query1->row()->months){
+        if($query and $data["price"]==$query1->row()->price and $data["years"]==$query1->row()->years and $data["months"]==$query1->row()->months and $data["tax_type"]==$query1->row()->tax_type){
             $this->session->set_flashdata("new_msg","Plan name exists.Change the details to update.");
             redirect(base_url() . "Plan/updatePlanAdd/".$data["id"]);
         }
@@ -248,6 +252,7 @@ function plan_details()
             $table .= "<td>{$row->name}</td>";
             $table .= "<td>{$row->price}</td>";
             $table .= "<td>{$row->category}</td>";
+            $table .= "<td>{$row->tax_type}</td>";
             $table .= "<td>{$row->years}</td>";
             $table .= "<td>{$row->months}</td>";
             $table .= "</tr>";

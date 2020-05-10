@@ -48,6 +48,7 @@ if(!($user['type'] == "admin")){
                       <th>Name</th>
                       <th>Price</th>
                       <th>Category</th>
+                      <th>Tax Type</th>
                       <th>Year</th>
                       <th>Month</th>
                     </tr>
