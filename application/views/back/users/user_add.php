@@ -26,6 +26,12 @@
 <form method="post" action="<?php echo base_url(); ?>user/user_add">
   <section class="content">
     <div class="container-fluid">
+      <script type="text/javascript">
+        var mob_valid = false;
+        var email_valid = false;
+        var planc_valid = false;
+        var plan_valid = false;
+      </script>
       <div class="row">
         <!-- left column -->
         <!-- right column -->
@@ -60,9 +66,16 @@
                     <div class="form-group">
                       <label>Mobile Number <span style="color:red">*</span> </label>
                       <p style="color:red" id="mobile_msg"></p>
+                      <div class="input-group">
                       <input type="number" id="mobile" name="mobile" onchange="mobile_validate()" value="<?php echo $this->session->flashdata("mobile"); ?>" class="form-control" placeholder="Enter Mobile Number" required>
+                      <div class="input-group-append" id="mob-loader" style="display:none;">
+                        <img src="<?php echo base_url(); ?>back_static/images/loader.gif" style="width:20px;">
+                      </div>
+                    </div>
                       <script>
                           function mobile_validate() {
+                            var mob_loader = document.getElementById('mob-loader');
+                            mob_loader.style.display = "block";
                             $.ajax({
                               type: 'POST',
                               url: '<?php echo base_url(); ?>user/mobile_validate',
@@ -74,14 +87,23 @@
                                   $("#mobile_msg").text("");
                                   $("#mobile").addClass("is-valid");
                                   $("#mobile").removeClass("is-invalid");
+                                  mob_valid = true;
+                                  submit_valid();
                                 }else {
                                   $("#mobile_msg").text("Mobile Number exists or invaild.");
                                   $("#mobile").addClass("is-invalid");
                                   $("#mobile").removeClass("is-valid");
+                                  mob_valid = false;
+                                  submit_valid();
                                 }
+                                mob_loader.style.display = "none";
+
                               },
                               error: function () {
                                 alert("not found");
+                                mob_loader.style.display = "none";
+                                mob_valid = false;
+                                submit_valid();
                               }
                             })
                           }
@@ -92,9 +114,16 @@
                     <div class="form-group">
                       <label>Email <span style="color:red">*</span></label>
                       <p style="color:red" id="email_msg"></p>
+                      <div class="input-group">
                       <input type="email" id="email" name="email" class="form-control" onchange="email_validate()" value="<?php echo $this->session->flashdata("email"); ?>" placeholder="Enter Email" required>
+                      <div class="input-group-append" id="email-loader" style="display:none;">
+                        <img src="<?php echo base_url(); ?>back_static/images/loader.gif" style="width:20px;">
+                      </div>
+                    </div>
                       <script>
                           function email_validate() {
+                            var email_loader = document.getElementById('email-loader');
+                            email_loader.style.display = "block";
                             $.ajax({
                               type: 'POST',
                               url: '<?php echo base_url(); ?>user/email_validate',
@@ -106,14 +135,22 @@
                                   $("#email_msg").text("");
                                   $("#email").addClass("is-valid");
                                   $("#email").removeClass("is-invalid");
+                                  email_valid = true;
+                                  submit_valid();
                                 }else {
                                   $("#email_msg").text("Email exists or invaild.");
                                   $("#email").addClass("is-invalid");
                                   $("#email").removeClass("is-valid");
+                                  email_valid = false;
+                                  submit_valid();
                                 }
+                                email_loader.style.display = "none";
                               },
                               error: function () {
                                 alert("not found");
+                                email_loader.style.display = "none";
+                                email_valid = false;
+                                submit_valid();
                               }
                             })
                           }
@@ -254,31 +291,17 @@
                           <?php foreach ($plan_category as $row): ?>
                             <?php if ($row == "No Plan Category"): ?>
                                 <option><?php echo $row; ?></option>
+                                <script type="text/javascript">
+                                    planc_valid = false;
+                                </script>
                               <?php else: ?>
                                 <option value="<?php echo $row->category ?>"><?php echo ucwords($row->category); ?></option>
+                                <script type="text/javascript">
+                                    planc_valid = true;
+                                </script>
                             <?php endif; ?>
                           <?php endforeach; ?>
                         </select>
-                        <script type="text/javascript">
-                          function getPlans(){
-                            var planC = $("#planC").val();
-                            $.ajax({
-                              type : "POST",
-                              url  : "<?php echo base_url(); ?>user/get_plans",
-                              data : {
-                                'planC' : planC
-                              },
-                              success : function(msg) {
-                                $("#plans").html(msg);
-                                getPlanDetails();
-                              },
-                              error   : function(msg) {
-                                alert("Server Busy.");
-                              }
-                            });
-                          }
-                          getPlans();
-                        </script>
                       </div>
                     </div>
                     <div class="col-sm-6">
@@ -290,65 +313,29 @@
                     </div>
                   </div>
                   <script type="text/javascript">
-                    var years = 0;
-                    var months = 0;
-                    var price = 0;
-                    function getPlanDetails() {
+                    const plans = <?php echo json_encode($plans); ?>;
+                    let plan;
+                    function getPlans(){
                       var planC = $("#planC").val();
-                      var plan = $("#plans").val();
-                      if (planC == "No Plan Category") {
-                        alert("No Plan Category Added");
-                      }else if (plan == "No Plan") {
-                        alert("No Plans Added For The Category");
+                      output = "";
+                      if(planC in plans){
+                        plan = plans[planC];
+                        for (var i in plan) {
+                          output += "<option>"+i+"</option>";
+                        }
+                        plan_valid = true;
                       }else {
-                        $.ajax({
-                          type: "POST",
-                          url : "<?php echo base_url(); ?>/user/getPlanDetails",
-                          data: {
-                            "planC" : planC,
-                            "plan" : plan
-                          },
-                          success: function (msg) {
-                            if (msg == "error") {
-                              alert("Database Error, Try Again Later");
-                            }else {
-                              var output = JSON.parse(msg)[0];
-                              years = parseInt(output["years"]);
-                              months = parseInt(output["months"]);
-                              expdDateChange();
-                              price = output["price"];
-                              $("#plan-price").val(price);
-                              $("#discc").val(price);
-                              $("#discp").val(0);
-                              $("#cash").val(price);
-                              $("#apc").val(price);
-                              $("#due").val(0)
-                            }
-                          },
-                          error: function(msg) {
-                            alert("Server Busy.");
-                          }
-                        });
+                        plan = "none";
+                        output += "<option>No Plans</option"
+                        plan_valid = false;
                       }
+                      $("#plans").html(output);
+                      getPlanDetails();
+                      submit_valid();
                     }
-                    Date.prototype.toDateInputValue = (function() {
-                        var local = new Date(this);
-                        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-                        return local.toJSON().slice(0,10);
-                    });
-
-                    function expdDateChange() {
-                      // Converting years and months to total months
-                      var tot_month = 12*years + parseInt(months);
-                      // Finding Expired Date
-                      var joind = new Date($("#joind").val()+" 00:00:00");
-                      joind.setMonth(joind.getMonth()+tot_month);
-                      var joinM = joind.getMonth()+1;
-                      var joinD = joind.getDate()-1;
-                      var expd = joind.getFullYear() + "-" + (joinM<10?"0"+joinM:joinM) + "-" + (joinD<10?"0"+joinD:joinD);
-                      $("#expd").val(expd);
-                    }
+                    getPlans();
                   </script>
+
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
@@ -361,6 +348,11 @@
                         </div>
                         <script type="text/javascript">
                         // To get todays date in IST
+                          Date.prototype.toDateInputValue = (function() {
+                              var local = new Date(this);
+                              local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+                              return local.toJSON().slice(0,10);
+                          });
                           $('#joind').val(new Date().toDateInputValue());
                         </script>
                       </div>
@@ -381,7 +373,10 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Trainer <span style="color:red">*</span></label>
-                        <select class="form-control" id="trainer" name="trainer" onchange="getTrainerTimeSlot()">
+                        <select class="form-control" id="trainer" name="trainer" onchange="get_time_slot()">
+                          <?php foreach ($trainers as $key => $value): ?>
+                            <option value="<?php echo $key; ?>"><?php echo $value["name"]; ?></option>
+                          <?php endforeach; ?>
                         </select>
                       </div>
                     </div>
@@ -393,36 +388,22 @@
                       </div>
                     </div>
                     <script type="text/javascript">
-                      function getTrainers() {
-                        $.ajax({
-                          type : "POST",
-                          url : "<?php echo base_url();?>user/get_trainers",
-                          success: function(msg){
-                            $("#trainer").html(msg);
-                            getTrainerTimeSlot();
-                          },
-                          error: function (msg) {
-                            alert("Server Busy");
+                        const trainers = (<?php echo json_encode($trainers);  ?>);
+                        function get_time_slot() {
+                          let userid = $("#trainer").val();
+                          let data = trainers[userid];
+                          let output = "";
+                          if(data["sch"] == "0"){
+                            output += "<option>None</option>";
+                          }else if (data["sch"] == "1") {
+                            output += ("<option>" + data["ftimein"] + "</option>");
+                          }else {
+                            output += ("<option>" + data["ftimein"] + "</option>");
+                            output += ("<option>" + data["stimein"] + "</option>");
                           }
-                        });
-                      }
-                      getTrainers();
-
-                      function getTrainerTimeSlot() {
-                        $.ajax({
-                          type : "POST",
-                          url : "<?php echo base_url();?>user/get_trainers_time",
-                          data: {
-                            "trainer" : $("#trainer").val()
-                          },
-                          success: function(msg){
-                            $("#time_slot").html(msg);
-                          },
-                          error: function (msg) {
-                            alert("Server Busy");
-                          }
-                        });
-                      }
+                          $("#time_slot").html(output);
+                        }
+                        get_time_slot();
                     </script>
                   </div>
                   <div class="row">
@@ -443,6 +424,34 @@
                     </div>
                   </div>
                 </div>
+                <script type="text/javascript">
+                  var years = 0;
+                  var months = 0;
+                  var price = 0;
+
+                  function expdDateChange() {
+                    // Converting years and months to total months
+                    var tot_month = 12*years + parseInt(months);
+                    // Finding Expired Date
+                    var joind = new Date($("#joind").val()+" 00:00:00");
+                    joind.setMonth(joind.getMonth()+tot_month);
+                    var joinM = joind.getMonth()+1;
+                    var joinD = joind.getDate()-1;
+                    var expd = joind.getFullYear() + "-" + (joinM<10?"0"+joinM:joinM) + "-" + (joinD<10?"0"+joinD:joinD);
+                    $("#expd").val(expd);
+                  }
+
+                  function getPlanDetails(){
+                    let sel_plan = plan[$("#plans").val()]
+                    years = sel_plan["years"];
+                    months = sel_plan["months"];
+                    price = sel_plan["price"];
+                    $("#plan-price").val(price);
+                    expdDateChange();
+                    payments_init();
+                  }
+                  getPlanDetails();
+                </script>
             </div>
             </div>
           </div>
@@ -467,62 +476,18 @@
                         <input type="number" id="discc" name="discc" class="form-control" onkeyup="discc_change()" placeholder="Cost to the Client">
                       </div>
                     </div>
-                    <script type="text/javascript">
-                      function discp_change() {
-                        let discp = parseInt($("#discp").val());
-                        $("#discp").val(discp);
-                        let discc = price;
-                        if (discp>100 || discp<0 || isNaN(discp)) {
-                          $("#discp").val(0);
-                          $("#discc").val(price);
-                          $("#cash").val(price);
-                          $("#card").val(0);
-                          $("#cheque").val(0);
-                          $("#online").val(0);
-                        }else {
-                          let ctc = discc - (discc*discp/100);
-                          $("#discc").val(ctc);
-                          $("#cash").val(ctc);
-                          $("#card").val(0);
-                          $("#cheque").val(0);
-                          $("#online").val(0);
-                        }
-                      }
-                      function discc_change() {
-                        let discc = parseInt($("#discc").val());
-                        if (discc>price) {
-                          $("#discp").val(0);
-                          var val = 0;
-                          $("#discc").val(price);
-                          $("#cash").val(price);
-                          $("#card").val(0);
-                          $("#cheque").val(0);
-                          $("#online").val(0);
-                          $("#apc").val(price);
-                        }else {
-                          var val = ((price-discc)/price)*100;
-                          $("#discc").val(discc);
-                          $("#cash").val(discc);
-                          $("#card").val(0);
-                          $("#cheque").val(0);
-                          $("#online").val(0);
-                          $("#apc").val(discc);
-                        }
-                        $("#discp").val(parseInt(val));
-                      }
-                    </script>
                   </div>
                   <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Amount Paid By Cash</label>
-                          <input type="number" id="cash" name="cash" class="form-control" placeholder="Amount Paid By Cash">
+                          <input type="number" id="cash" name="cash" ="cost_calculation()" onkeyup="cost_calculation()" class="form-control" placeholder="Amount Paid By Cash">
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Amount Paid By Card</label>
-                          <input type="number" id="card" name="card" class="form-control" placeholder="Amount Paid By Card" value="0">
+                          <input type="number" id="card" name="card" onkeyup="cost_calculation()" class="form-control" placeholder="Amount Paid By Card" value="0">
                         </div>
                     </div>
                   </div>
@@ -530,13 +495,13 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Amount Paid By Cheque</label>
-                          <input type="number" id="cheque" name="cheque" class="form-control" placeholder="Amount Paid By Cheque" value="0">
+                          <input type="number" id="cheque" name="cheque" onkeyup="cost_calculation()" class="form-control" placeholder="Amount Paid By Cheque" value="0">
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Amount Paid By Online</label>
-                          <input type="number" id="online" name="online" class="form-control" placeholder="Amount Paid By Online" value="0">
+                          <input type="number" id="online" name="online" onkeyup="cost_calculation()" class="form-control" placeholder="Amount Paid By Online" value="0">
                         </div>
                     </div>
                   </div>
@@ -570,6 +535,85 @@
                       $('#due_date').val(new Date().toDateInputValue());
                     </script>
                   </div>
+                  <script type="text/javascript">
+                    function cost_calculation() {
+                      var cash = parseInt($("#cash").val());
+                      var card = parseInt($("#card").val());
+                      var cheque = parseInt($("#cheque").val());
+                      var online = parseInt($("#online").val());
+                      $("#cash").val(cash);
+                      $("#card").val(card);
+                      $("#cheque").val(cheque);
+                      $("#online").val(online);
+                      var ctc = $("#discc").val()
+                      if ((cash+card+cheque+online)>ctc) {
+                        cash = card = cheque = online = 0;
+                        $("#cash").val(0);
+                        $("#card").val(0);
+                        $("#cheque").val(0);
+                        $("#online").val(0);
+                      }
+
+                      var apc = (cash+card+online+cheque);
+                      $("#apc").val(apc);
+                      $("#due").val(ctc-apc);
+                    }
+
+                    function payments_init() {
+                      $("#discc").val(price);
+                      $("#cash").val(0);
+                      $("#card").val(0);
+                      $("#cheque").val(0);
+                      $("#online").val(0);
+                      $("#discp").val(0);
+                      cost_calculation();
+                    }
+                    payments_init();
+                    function discp_change() {
+                      let discp = parseInt($("#discp").val());
+                      $("#discp").val(discp);
+                      let discc = price;
+                      if (discp>100 || discp<0 || isNaN(discp)) {
+                        $("#discp").val(0);
+                        $("#discc").val(price);
+                        $("#cash").val(0);
+                        $("#card").val(0);
+                        $("#cheque").val(0);
+                        $("#online").val(0);
+                      }else {
+                        let ctc = discc - (discc*discp/100);
+                        $("#discc").val(ctc);
+                        $("#cash").val(0);
+                        $("#card").val(0);
+                        $("#cheque").val(0);
+                        $("#online").val(0);
+                      }
+                    }
+                    function discc_change() {
+                      let discc = parseInt($("#discc").val());
+                      if (discc>price) {
+                        $("#discp").val(0);
+                        var val = 0;
+                        $("#discc").val(price);
+                        $("#cash").val(price);
+                        $("#card").val(0);
+                        $("#cheque").val(0);
+                        $("#online").val(0);
+                        $("#apc").val(price);
+                        cost_calculation();
+                      }else {
+                        var val = ((price-discc)/price)*100;
+                        $("#discc").val(discc);
+                        $("#cash").val(0);
+                        $("#card").val(0);
+                        $("#cheque").val(0);
+                        $("#online").val(0);
+                        $("#apc").val(discc);
+                        cost_calculation();
+                      }
+                      $("#discp").val(parseInt(val));
+                    }
+                  </script>
                 </div>
               </div>
           </div>
@@ -595,11 +639,23 @@
   </div>
   </section>
 </form>
-<?php if ($plan_category[0] == "No Plan Category"): ?>
-  <script type="text/javascript">
-    $("#user-add-btn").prop("disabled",true);
-  </script>
-<?php endif; ?>
+<script type="text/javascript">
+  function submit_valid() {
+    if ($("#trainer").val() == "-1") {
+      plan_valid = false;
+    }else {
+      plan_valid = true;
+    }    
+    if (mob_valid && email_valid && planc_valid && plan_valid && plan_valid) {
+      $("#user-add-btn").prop("disabled",false);
+    }else {
+      $("#user-add-btn").prop("disabled",true);
+    }
+  }
+
+  submit_valid();
+</script>
+
  <?php
    include __DIR__ . "/../footer.php";
   ?>

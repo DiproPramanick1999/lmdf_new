@@ -86,6 +86,13 @@
       return $query;
     }
 
+    function get_all_employees()
+    {
+      $query = $this->db->query("SELECT * FROM employee");
+      return $query;
+      // return "hi";
+    }
+
     function update_employee($details)
     {
       $id = $details['employeeid'];
