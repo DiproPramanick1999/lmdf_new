@@ -40,6 +40,7 @@
             "price" => $row->price,
             "years" => $row->years,
             "months" => $row->months,
+            "tax_type" => $row->tax_type,
           );
           if (array_key_exists($row->category, $plans)) {
             $plans[$row->category][$row->name] = $plan;
@@ -75,6 +76,57 @@
         );
       }
       return $trainers;
+    }
+
+    function get_trainer_name($id)
+    {
+      $query = $this->db->query("SELECT name FROM employee where id={$id}");
+      if ($query->num_rows() > 0) {
+        foreach ($query->result() as $row) {
+          $name = $row->name;
+        }
+      }else {
+        $name = "None";
+      }
+      return $name;
+    }
+
+    function add_new_user($user,$payment)
+    {
+      $this->db->insert('user',$user);
+      $this->db->insert('payments',$payment);
+    }
+
+    function get_tax()
+    {
+      $query = $this->db->query("SELECT * from tax");
+      if ($query->num_rows()>0) {
+        foreach ($query->result() as $row) {
+          $tax = $row;
+        }
+        $tax = json_decode(json_encode($tax),true);
+      }else {
+        $tax = array(
+          'cgst' => 0,
+          'sgst' => 0
+        );
+      }
+      return $tax;
+    }
+
+    function add_due($due)
+    {
+      $this->db->insert('due',$due);
+    }
+
+    function get_invoice_number()
+    {
+      $query = $this->db->query("SELECT * from invoice_num");
+      foreach ($query->result() as $row) {
+        $invoice = $row->number;
+      }
+      $this->db->query("UPDATE invoice_num set number=number+1");
+      return $invoice;
     }
 
   }

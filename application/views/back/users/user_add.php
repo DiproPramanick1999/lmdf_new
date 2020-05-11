@@ -67,7 +67,7 @@
                       <label>Mobile Number <span style="color:red">*</span> </label>
                       <p style="color:red" id="mobile_msg"></p>
                       <div class="input-group">
-                      <input type="number" id="mobile" name="mobile" onchange="mobile_validate()" value="<?php echo $this->session->flashdata("mobile"); ?>" class="form-control" placeholder="Enter Mobile Number" required>
+                      <input type="number" id="mobile" name="phone" onchange="mobile_validate()" value="<?php echo $this->session->flashdata("mobile"); ?>" class="form-control" placeholder="Enter Mobile Number" required>
                       <div class="input-group-append" id="mob-loader" style="display:none;">
                         <img src="<?php echo base_url(); ?>back_static/images/loader.gif" style="width:20px;">
                       </div>
@@ -164,7 +164,7 @@
                     <!-- select -->
                     <div class="form-group">
                       <label>Nationality<span style="color:red">*</span></label>
-                      <select class="form-control" name="nationality">
+                      <select class="form-control" name="country">
                         <?php foreach ($nations as $row):?>
                             <option value="<?php echo $row->code; ?>" <?php if($row->nation == "India"){echo "selected";} ?>><?php echo $row->nation; ?></option>
                         <?php endforeach; ?>
@@ -190,16 +190,16 @@
                     <div class="form-group">
                       <label>Gender <span style="color:red">*</span></label>
                       <select class="form-control" name="gender">
-                        <option value="admin" <?php if($this->session->flashdata("etype") == 'admin') echo "selected"; ?>>Male</option>
-                        <option value="sales" <?php if($this->session->flashdata("etype") == 'sales') echo "selected"; ?>>Female</option>
-                        <option value="trainer" <?php if($this->session->flashdata("etype") == 'trainer') echo "selected"; ?>>Others</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
                       </select>
                     </div>
                   </div>
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label>Emergency Contact Number <span style="color:red">*</span> </label>
-                      <input type="number" id="emernum" name="emernum"  value="<?php echo $this->session->flashdata("mobile"); ?>" class="form-control" placeholder="Enter Mobile Number" required>
+                      <input type="number" id="emernum" name="emerNum"  value="<?php echo $this->session->flashdata("mobile"); ?>" class="form-control" placeholder="Enter Mobile Number" required>
                     </div>
                 </div>
               </div>
@@ -207,7 +207,7 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Emergency Contact Name <span style="color:red">*</span></label>
-                    <input type="text" name="emername" class="form-control" placeholder="Enter Contact Name" value="" required>
+                    <input type="text" name="emerName" class="form-control" placeholder="Enter Contact Name" value="" required>
                   </div>
                 </div>
                 <div class="col-sm-6">
@@ -220,11 +220,11 @@
                 <!-- input states -->
                 <div class="form-group">
                   <label class="col-form-label" for="inputSuccess">Aadhar/Passport ID Number <span style="color:red">*</span></label>
-                    <input type="text" name="verification" class="form-control" id="inputSuccess" placeholder="Enter Verification Details" value="<?php echo $this->session->flashdata("verification"); ?>" required>
+                    <input type="text" name="verification" class="form-control" id="verification" placeholder="Enter Verification Details" value="<?php echo $this->session->flashdata("verification"); ?>" required>
                 </div>
                 <div class="form-group">
                   <label class="col-form-label" for="inputSuccess">Address <span style="color:red">*</span></label>
-                    <input type="text" name="address" class="form-control" id="inputSuccess" placeholder="Enter Address" value="" required>
+                    <input type="text" name="address" class="form-control" id="address" placeholder="Enter Address" value="" required>
                 </div>
                 <div class="row">
                   <div class="col-sm-6">
@@ -264,7 +264,7 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Other Health Issues<span style="color:red">*</span> </label>
-                    <input type="text" id="other" name="other"  value="<?php echo $this->session->flashdata("mobile"); ?>" class="form-control" placeholder="Enter Health Issues" required>
+                    <input type="text" id="other" name="others"  value="<?php echo $this->session->flashdata("mobile"); ?>" class="form-control" placeholder="Enter Health Issues" required>
                   </div>
                 </div>
               </div>
@@ -307,7 +307,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Plan Term <span style="color:red">*</span></label>
-                        <select class="form-control" onchange="getPlanDetails()" id="plans" name="plan">
+                        <select class="form-control" onchange="getPlanDetails()" id="plans" name="plans">
                         </select>
                       </div>
                     </div>
@@ -361,7 +361,7 @@
                       <div class="form-group">
                         <label>Date of Expiry</label>
                         <div class="input-group">
-                          <input type="date" class="form-control" id="expd" name="expd" disabled>
+                          <input type="date" class="form-control" id="expd" name="expd" readonly>
                           <div class="input-group-append">
                             <div class="input-group-text"><i class="fas fa-calendar"></i></div>
                           </div>
@@ -383,7 +383,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Time Slot <span style="color:red">*</span></label>
-                        <select class="form-control" name="time_slot" id="time_slot">
+                        <select class="form-control" name="time" id="time_slot">
                         </select>
                       </div>
                     </div>
@@ -410,7 +410,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Plan Price</label>
-                        <input type="number" id="plan-price" name="plan_price"  value="<?php echo $this->session->flashdata("mobile"); ?>" class="form-control" placeholder="Plan Price" disabled>
+                        <input type="number" id="plan-price" name="plan_price" class="form-control" placeholder="Plan Price" readonly>
                       </div>
                     </div>
                     <div class="col-sm-6">
@@ -424,11 +424,12 @@
                     </div>
                   </div>
                 </div>
+                <input type="hidden" name="tax_type" id="tax_type">
                 <script type="text/javascript">
                   var years = 0;
                   var months = 0;
                   var price = 0;
-
+                  var tax_type = "";
                   function expdDateChange() {
                     // Converting years and months to total months
                     var tot_month = 12*years + parseInt(months);
@@ -446,7 +447,9 @@
                     years = sel_plan["years"];
                     months = sel_plan["months"];
                     price = sel_plan["price"];
+                    tax_type = sel_plan["tax_type"];
                     $("#plan-price").val(price);
+                    $("#tax_type").val(tax_type);
                     expdDateChange();
                     payments_init();
                   }
@@ -509,13 +512,13 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Amount Paid By Client</label>
-                          <input type="number" id="apc" name="apc" class="form-control" placeholder="Amount Paid By Client" disabled>
+                          <input type="number" id="apc" name="apc" class="form-control" placeholder="Amount Paid By Client" readonly>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Due Amount</label>
-                          <input type="number" id="due" name="due" class="form-control" placeholder="Due Amount" disabled>
+                          <input type="number" id="due" name="due" class="form-control" placeholder="Due Amount" readonly>
                         </div>
                     </div>
                   </div>
@@ -645,7 +648,7 @@
       plan_valid = false;
     }else {
       plan_valid = true;
-    }    
+    }
     if (mob_valid && email_valid && planc_valid && plan_valid && plan_valid) {
       $("#user-add-btn").prop("disabled",false);
     }else {
