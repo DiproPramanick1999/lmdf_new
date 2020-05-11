@@ -53,12 +53,56 @@
     // Add Validation
     function user_add()
     {
-      echo $this->input->post("nationality");
-      echo "<br>";
-      echo $this->input->post("joind");
-      echo "<br>";
-      echo $this->input->post("discp");
+      $this->load->model("user_model");
+      $id = $this->user_model->get_new_id();
+      $details = $this->input->post();
+      $details["id"] = $id;
+      $details["trainer"] = $this->user_model->get_trainer_name($details["trainer"]);
+      $details["status"] = "Active";
+      $details["crep"] = $this->session->userdata("username");
+      $details["invoice"] = $this->user_model->get_invoice_number();
+      unset($details["plan_price"]); // To remove unwanted data from post
+      $tax = $this->user_model->get_tax();
+      $details["cgst"] = $tax["cgst"];$details["sgst"] = $tax["sgst"];
+      date_default_timezone_set('Asia/Kolkata');
+      $details["regd"] = date("Y-m-d");
+      if ($details["time"] == "None") {
+        $details["time"] = "00:00:00";
+      }
+      $user = $details;
+      unset($user["due"],$user["due_date"]);// To remove unwanted data from user post
+      print_r($user);
+      if ($details["due"]>0) {
+        $due = array(
+          'user_id' => $id,
+          'due_amt' => $details["due"],
+          'date' => $details["due_date"],
+          'status' => "Active",
+        );
+        $this->user_model->add_due($due);
+      }
+      $payment = array(
+        "userid" => $id,
+        "planC" => $details["planC"],
+        "plans" => $details["plans"],
+        "joind" => $details["joind"],
+        "expd" => $details["expd"],
+        "discp" => $details["discp"],
+        "discc" => $details["discc"],
+        "regd" => $details["regd"],
+        "invoice" => $details["invoice"],
+        "status" => $details["status"],
+        "apc" => $details["apc"],
+        "cgst" => $details["cgst"],
+        "sgst" => $details["sgst"],
+        "crep" => $details["crep"],
+        "tax_type" => $details["tax_type"],
+      );
+      echo "<br><br><br>";
+      print_r($payment);
+      $this->user_model->add_new_user($user,$payment);
     }
+
     // To validate the mobile number
     function mobile_validate()
     {
