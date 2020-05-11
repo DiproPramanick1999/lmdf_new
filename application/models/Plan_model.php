@@ -12,19 +12,11 @@ function insert_plan($data)
     $this->db->insert("plan",$data);
 }
 
-function fetch_data($get_details)
+function fetch_data()
 {
-        if($get_details!="")
-        {
-            $query = $this->db->query("SELECT * FROM plan_category WHERE category like '%{$get_details}%'");
-            return $query;
-        }
-        else{
-            $query = $this->db->query("SELECT * FROM plan_category");
-            return $query;
-        }
-
-
+    $query = $this->db->query("SELECT * FROM plan_category");
+    return $query;
+    
 }
     
 function sel_plan_category()
@@ -35,17 +27,10 @@ function sel_plan_category()
     
 }
 
-function fetch_plan_data($get_details)
+function fetch_plan_data()
 {
-    if($get_details!="")
-        {
-            $query = $this->db->query("SELECT * FROM plan WHERE category like '%{$get_details}%' or name like '%{$get_details}%' or price like '%{$get_details}%'");
-            return $query;
-        }
-        else{
-            $query = $this->db->query("SELECT * FROM plan");
-            return $query;
-        }
+        $query = $this->db->query("SELECT * FROM plan");
+        return $query;
     
 }
     

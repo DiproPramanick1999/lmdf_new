@@ -127,5 +127,31 @@
         echo "error";
       }
     }
+    
+    function user_display()
+    {
+        $this->load->helper('url');
+        $this->load->model('User_model');
+        $query=$this->User_model->get_all_details();
+        $table = "";
+        if ($query->num_rows()>0) {
+          foreach ($query->result() as $row) {
+            $table .= "<tr onclick='viewPlan({$row->id})'>";
+            $table .= "<td>{$row->id}</td>";
+            $table .= "<td>{$row->name}</td>";
+            $table .= "<td>{$row->phone}</td>";
+            $table .= "<td>{$row->planC}</td>";
+            $table .= "<td>{$row->plans}</td>";
+            $table .= "<td>{$row->status}</td>";
+            $table .= "</tr>";
+          }
+        }
+        else
+        {
+          $table .= "No Records Available";
+        }
+        $data["user_detail"] = $table;
+        $this->load->view('back/users/user_view',$data);
+    }
   }
  ?>

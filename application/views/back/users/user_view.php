@@ -10,12 +10,12 @@ if(!($user['type'] == "admin")){
    <div class="container-fluid">
      <div class="row mb-2">
        <div class="col-sm-6">
-         <h1>Plan Details</h1>
+         <h1>User Details</h1>
        </div>
        <div class="col-sm-6">
          <ol class="breadcrumb float-sm-right">
            <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Home</a></li>
-           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>plan/view">Plans</a></li>
+           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>user/user_display">User</a></li>
            <li class="breadcrumb-item active">View</li>
          </ol>
        </div>
@@ -25,7 +25,7 @@ if(!($user['type'] == "admin")){
 
     <section class="content"  style="margin-top:20px;">
         <div class="container-fluid">
-          <button class="btn btn-dark" onclick="window.location.href='add'">Add Plan</button>  
+          <button class="btn btn-dark" onclick="window.location.href='<?php echo base_url(); ?>user/user_display'">User Details</button>  
           <div class="row">
             <div class="col-12">
               <div class="card">
@@ -45,14 +45,14 @@ if(!($user['type'] == "admin")){
                 <div class="card-body table-responsive p-0" style="height: 400px;">
                   <table id="customers">
                     <tr >
+                      <th>Id</th>
                       <th>Name</th>
-                      <th>Price</th>
-                      <th>Category</th>
-                      <th>Tax Type</th>
-                      <th>Year</th>
-                      <th>Month</th>
+                      <th>Phone</th>
+                      <th>Planc</th>
+                      <th>Plan</th>
+                      <th>Status</th>
                     </tr>
-                    <tbody id="table-body-plan" style="cursor:pointer;">
+                    <tbody id="table-body-user" style="cursor:pointer;">
                     </tbody>
                   </table>
                 </div>
@@ -68,17 +68,17 @@ if(!($user['type'] == "admin")){
              <script type="text/javascript">
                  function getDetails() {
                    var value = $("#get_details").val().toLowerCase();
-                   $("#table-body-plan tr").filter(function() {
+                   $("#table-body-user tr").filter(function() {
                      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                    });
                  }
                  
-                 var table = "<?php echo $plan_detail; ?>";
-                 $("#table-body-plan").html(table);
+                 var table = "<?php echo $user_detail; ?>";
+                 $("#table-body-user").html(table);
                  
                  function viewPlan(id)
                  {
-                     window.location.href="<?php echo base_url() ?>Plan/updatePlanAdd/"+id;
+                     window.location.href="<?php echo base_url() ?>User/edit/"+id;
                  }
 
              </script>

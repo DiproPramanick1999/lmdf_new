@@ -1,6 +1,11 @@
 <?php
   class User_model extends CI_Model
   {
+    function get_all_details()
+    {
+        $query = $this->db->query("SELECT * from user");
+        return $query;
+    }
     function getRegisteredUser()
     {
       $query = $this->db->query("SELECT * from user where email is not null");

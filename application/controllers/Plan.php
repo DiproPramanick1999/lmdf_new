@@ -31,32 +31,49 @@ function form_validations()
 }
 
 function category(){
-    $this->load->helper("url");
-    $this->load->view("back/plans/view");
-}
-
-
-function details()
-{
     $this->load->helper('url');
-        $get_details = $_POST["get_details"];
-        $this->load->model('Plan_model');
-        $query = $this->Plan_model->fetch_data($get_details);
-        $table = "";
-        if ($query->num_rows()>0) {
-          foreach ($query->result() as $row) {
+    $this->load->model('Plan_model');
+    $plan_category = $this->Plan_model->fetch_data();
+    $table = "";
+    if ($plan_category->num_rows()>0) {
+        foreach ($plan_category->result() as $row) {
             $table .= "<tr onclick='viewPlanCat({$row->id})'>";
             $table .= "<td>{$row->category}</td>";
             $table .= "</tr>";
           }
-        }
-        else
-        {
+    }
+    else
+    {
           $table .= "No Records Available";
-        }
-        echo $table;
-
+    }
+    $data["plan_category"] = $table;
+    $this->load->view('back/plans/view',$data);
 }
+
+
+//function details()
+//{
+//    
+//    $this->load->helper('url');
+//    $this->load->model('Plan_model');
+//    $plan_category = $this->Plan_model->fetch_data();
+//    $table = "";
+//    if ($plan_category->num_rows()>0) {
+//        foreach ($plan_category->result() as $row) {
+//            $table .= "<tr onclick='viewPlanCat({$row->id})'>";
+//            $table .= "<td>{$row->category}</td>";
+//            $table .= "</tr>";
+//          }
+//    }
+//    else
+//    {
+//          $table .= "No Records Available";
+//    }
+//    $data["plan_category"] = $table;
+//    $this->load->view('back/plans/view',$data);
+//
+//
+//}
 
 function updatePlanCat(){
     $this->load->helper('url');
@@ -233,18 +250,9 @@ function update_add_plan(){
     
     
 function view(){
-    $this->load->helper("url");
-    $this->load->view("back/plans/plan_view");
-}
-
-
-
-function plan_details()
-{
     $this->load->helper('url');
-        $get_details = $_POST["get_details"];
         $this->load->model('Plan_model');
-        $query = $this->Plan_model->fetch_plan_data($get_details);
+        $query = $this->Plan_model->fetch_plan_data();
         $table = "";
         if ($query->num_rows()>0) {
           foreach ($query->result() as $row) {
@@ -262,8 +270,37 @@ function plan_details()
         {
           $table .= "No Records Available";
         }
-        echo $table;
+        $data["plan_detail"] = $table;
+        $this->load->view('back/plans/plan_view',$data);
 }
+
+
+
+//function plan_details()
+//{
+//    $this->load->helper('url');
+//        $this->load->model('Plan_model');
+//        $query = $this->Plan_model->fetch_plan_data();
+//        $table = "";
+//        if ($query->num_rows()>0) {
+//          foreach ($query->result() as $row) {
+//            $table .= "<tr onclick='viewPlan({$row->id})'>";
+//            $table .= "<td>{$row->name}</td>";
+//            $table .= "<td>{$row->price}</td>";
+//            $table .= "<td>{$row->category}</td>";
+//            $table .= "<td>{$row->tax_type}</td>";
+//            $table .= "<td>{$row->years}</td>";
+//            $table .= "<td>{$row->months}</td>";
+//            $table .= "</tr>";
+//          }
+//        }
+//        else
+//        {
+//          $table .= "No Records Available";
+//        }
+//        $data["plan_detail"] = $table;
+//        $this->load->view('back/plans/plan_view',$data);
+//}
 
 }
 
