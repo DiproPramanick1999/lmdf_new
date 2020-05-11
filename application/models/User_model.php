@@ -134,5 +134,32 @@
       return $invoice;
     }
 
+    function get_one_client($id)
+    {
+      $query = $this->db->query("SELECT * from user where id=$id");
+      if ($query->num_rows()>0) {
+        foreach ($query->result() as $row) {
+          $data = $row;
+        }
+        $data = json_decode(json_encode($data),true);
+        $query1 = $this->db->query("SELECT * from due where user_id=$id ORDER BY date desc");
+        if ($query1->num_rows()>0) {
+          foreach ($query1->result() as $row) {
+            $data["due_amt"] = $row->due_amt;
+            $data["due_date"] = $row->date;
+          }
+        }
+        return $data;
+      }else{
+        return "error";
+      }
+    }
+
+    function get_due_details()
+    {
+        $query = $this->db->query("SELECT * FROM due");
+        return $query;
+    }
+
   }
 ?>
