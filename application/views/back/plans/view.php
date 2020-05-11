@@ -25,7 +25,7 @@ if(!($user['type'] == "admin")){
 
     <section class="content" >
         <div class="container-fluid">
-          <button class="btn btn-dark" onclick="window.location.href='categoryadd'">Add Plan Category</button>  
+          <button class="btn btn-dark" onclick="window.location.href='<?php echo base_url() ?>Plan/categoryAdd'">Add Plan Category</button>  
           <div class="row">
             <div class="col-12">
               <div class="card" style="margin-top:30px;">
@@ -69,30 +69,15 @@ if(!($user['type'] == "admin")){
              <!-- /.card -->
 
              <script type="text/javascript">
-                    $("#btn").click(function () {
-                         getDetails();
-                    });
-
-                    $("#btn1").click(function () {
-                         window.location.href="<?php echo base_url() ?>Plan/view";
-                    });
-
                  function getDetails() {
-                   $.ajax({
-                     type: "POST",
-                     url: "<?php echo base_url();?>Plan/details",
-                     data: {
-                       'get_details' : $("#get_details").val()
-                     },
-                     success: function (msg) {
-                       $("#table-body-employee").html(msg);
-                     },
-                     error: function () {
-                       alert("error");
-                     }
+                   var value = $("#get_details").val().toLowerCase();
+                   $("#table-body-employee tr").filter(function() {
+                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                    });
                  }
-                 getDetails();
+                 
+                 var table = "<?php echo $plan_category; ?>";
+                 $("#table-body-employee").html(table);
                  
                  function viewPlanCat(id)
                  {
