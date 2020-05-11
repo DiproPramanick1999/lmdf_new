@@ -48,7 +48,7 @@
                     <!-- text input -->
                     <div class="form-group">
                       <label>ID</label>
-                      <input type="number" name="employeeid" class="form-control" placeholder="Enter ID" value="<?php echo $id; ?>" disabled>
+                      <input type="number" name="id" class="form-control" placeholder="Enter ID" value="<?php echo $id; ?>" readonly>
                     </div>
                   </div>
                   <div class="col-sm-6">
@@ -77,11 +77,14 @@
                             mob_loader.style.display = "block";
                             $.ajax({
                               type: 'POST',
-                              url: '<?php echo base_url(); ?>user/mobile_validate',
+                              url: '<?php echo base_url(); ?>user/mobile_validate_edit',
                               data: {
-                                'mobile' : $("#mobile").val()
+                                'mobile' : $("#mobile").val(),
+                                'id' : <?php echo $id; ?>,
+                                'existing' : "<?php echo $phone; ?>",
                               },
                               success: function(msg) {
+                                console.log(msg);
                                 if (msg == "success") {
                                   $("#mobile_msg").text("");
                                   $("#mobile").addClass("is-valid");
@@ -125,9 +128,11 @@
                             email_loader.style.display = "block";
                             $.ajax({
                               type: 'POST',
-                              url: '<?php echo base_url(); ?>user/email_validate',
+                              url: '<?php echo base_url(); ?>user/email_validate_edit',
                               data: {
-                                'email' : $("#email").val()
+                                'email' : $("#email").val(),
+                                'id' : <?php echo $id; ?>,
+                                'existing' : "<?php echo $email; ?>",
                               },
                               success: function(msg) {
                                 if (msg == "success") {
@@ -312,6 +317,7 @@
                       <div class="form-group">
                         <label>Date of Joining <span style="color:red">*</span></label>
                         <div class="input-group">
+                          <!-- <?php echo $joind; ?> -->
                           <input type="date" class="form-control" id="joind" name="joind" value="<?php echo $joind; ?>" disabled>
                           <div class="input-group-append">
                             <div class="input-group-text"><i class="fas fa-calendar"></i></div>
@@ -324,7 +330,7 @@
                               local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
                               return local.toJSON().slice(0,10);
                           });
-                          $('#joind').val(new Date().toDateInputValue());
+                          // $('#joind').val(new Date().toDateInputValue());
                         </script>
                       </div>
                     </div>
@@ -332,7 +338,7 @@
                       <div class="form-group">
                         <label>Date of Expiry</label>
                         <div class="input-group">
-                          <input type="date" class="form-control" id="expd" name="expd" value="<?php echo $expd; ?>">
+                          <input type="date" class="form-control" id="expd" name="expd" value="<?php echo $expd; ?>" min="<?php echo $expd; ?>">
                           <div class="input-group-append">
                             <div class="input-group-text"><i class="fas fa-calendar"></i></div>
                           </div>
@@ -345,16 +351,37 @@
                       <div class="form-group">
                         <label>Trainer <span style="color:red">*</span></label>
                         <select class="form-control" id="trainer" name="trainer" onchange="get_time_slot()">
+                          <?php foreach ($trainers as $key => $value): ?>
+                            <option value="<?php echo $key; ?>" <?php if($trainer==$value["name"]){echo "selected";} ?>><?php echo $value["name"]; ?></option>
+                          <?php endforeach; ?>
                         </select>
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Time Slot <span style="color:red">*</span></label>
-                        <select class="form-control" name="time" id="time_slot">
+                        <select class="form-control" name="time" value="<?php echo $time; ?>" id="time_slot">
                         </select>
                       </div>
                     </div>
+                    <script type="text/javascript">
+                        const trainers = (<?php echo json_encode($trainers);  ?>);
+                        function get_time_slot() {
+                          let userid = $("#trainer").val();
+                          let data = trainers[userid];
+                          let output = "";
+                          if(data["sch"] == "0"){
+                            output += "<option>None</option>";
+                          }else if (data["sch"] == "1") {
+                            output += ("<option>" + data["ftimein"] + "</option>");
+                          }else {
+                            output += ("<option>" + data["ftimein"] + "</option>");
+                            output += ("<option>" + data["stimein"] + "</option>");
+                          }
+                          $("#time_slot").html(output);
+                        }
+                        get_time_slot();
+                    </script>
                   </div>
                   <div class="row">
                     <div class="col-sm-6">
@@ -373,7 +400,7 @@
                       </div>
                     </div>
                   </div>
-                </div>                
+                </div>
             </div>
             </div>
           </div>

@@ -168,14 +168,60 @@
         redirect(base_url()."user/view");
       }
       $trainer = $this->user_model->get_trainers();
-      $data["trainer"] = $trainer;
+      $data["trainers"] = $trainer;
       // print_r($data);
       $this->load->view("back/users/edit",$data);
     }
 
+    function email_validate_edit()
+    {
+      $id = $_POST['id'];
+      $existing = $_POST['existing'];
+      $this->load->helper('url');
+      $this->load->library("form_validation");
+      if ($existing == $_POST["email"]) {
+        $unique = "";
+      }else {
+        $unique = "|is_unique[employee.email]";
+      }
+      $this->form_validation->set_rules("email","Email", "required|valid_email".$unique);
+      if ($this->form_validation->run()) {
+        echo "success";
+      }else{
+        echo "error";
+      }
+    }
+
+    // To validate the mobile number
+    function mobile_validate_edit()
+    {
+      $id = $_POST["id"];
+      $existing = $_POST["existing"];
+      $this->load->helper('url');
+      $this->load->library("form_validation");
+      if ($existing == $_POST["mobile"]) {
+        $unique = "";
+      }else {
+        $unique = "|is_unique[employee.phone]";
+      }
+      $this->form_validation->set_rules("mobile","Mobile", "required|min_length[10]|max_length[10]".$unique);
+      $var = $this->form_validation->run();
+      if ($this->form_validation->run()) {
+        echo "success";
+      }else{
+        echo "error";
+      }
+    }
+
     function update()
     {
-      print_r($this->input->post());
+      $details = $this->input->post();
+      $this->load->model("user_model");
+      $expd = $details["expd"];
+      $details["trainer"] = $this->user_model->get_trainer_name($details["trainer"]);
+      $this->user_model->update_user($details);
+      // $details;
+      redirect(base_url()."user/edit/".$details["id"]);
     }
 
     function user_due()
