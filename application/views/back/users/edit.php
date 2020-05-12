@@ -3,6 +3,13 @@
   if (!($user['type'] == "admin" || $user['type'] == "sales")) {
     redirect(base_url());
   }
+  if ($this->session->flashdata("update") == "success") {
+    echo "<script>alert('Updated Successfully')</script>";
+  }
+  if ($this->session->flashdata("new_user") == "success") {
+    echo "<script>alert('Client Added Successfully')</script>";
+  }
+
  ?>
 
 <!-- <div class="content-wrapper"> -->
@@ -21,6 +28,13 @@
           </ol>
         </div>
       </div>
+      <!-- DROPDOWN HERE -->
+      <?php
+       $page="edit";
+       $url = $this->uri->segment_array();
+       $userid = end($url);
+       ?>
+      <?php include 'dropdown.php'; ?>
     </div><!-- /.container-fluid -->
   </section>
 <form method="post" action="<?php echo base_url(); ?>user/update">
@@ -29,7 +43,7 @@
       <script type="text/javascript">
         var mob_valid = true;
         var email_valid = true;
-
+        var trainer_valid = false;
       </script>
       <div class="row">
         <!-- left column -->
@@ -461,6 +475,7 @@
                           <input type="number" id="apc" name="apc" class="form-control" placeholder="Amount Paid By Client" value="<?php echo $apc; ?>" disabled>
                         </div>
                     </div>
+                    <input type="hidden" name="invoice" value="<?php echo $invoice; ?>">
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Due Amount</label>
@@ -507,7 +522,12 @@
 </form>
 <script type="text/javascript">
   function submit_valid() {
-    if (mob_valid && email_valid) {
+    if ($("#trainer").val() == "-1") {
+      trainer_valid = false;
+    }else {
+      trainer_valid = true;
+    }
+    if (mob_valid && email_valid && trainer_valid) {
       $("#user-add-btn").prop("disabled",false);
     }else {
       $("#user-add-btn").prop("disabled",true);

@@ -165,8 +165,9 @@
     {
       $this->db->where('user.id',$details["id"]);
       $this->db->update("user",$details);
-      // $this->db->where('payments.userid ',$details["id"]);
-      // $this->db->update("user",$details);
+      $this->db->where('payments.userid',$details["id"]);
+      $this->db->where('payments.invoice',$details["invoice"]);
+      $this->db->update("payments",array('expd' => $details["expd"])) ;
     }
 
   }

@@ -71,7 +71,7 @@
       }
       $user = $details;
       unset($user["due"],$user["due_date"]);// To remove unwanted data from user post
-      print_r($user);
+      // print_r($user);
       if ($details["due"]>0) {
         $due = array(
           'user_id' => $id,
@@ -98,9 +98,11 @@
         "crep" => $details["crep"],
         "tax_type" => $details["tax_type"],
       );
-      echo "<br><br><br>";
-      print_r($payment);
+      // echo "<br><br><br>";
+      // print_r($payment);
       $this->user_model->add_new_user($user,$payment);
+      $this->session->set_flashdata("new_user",'success');     
+      redirect(base_url()."user/edit/".$id);
     }
 
     // To validate the mobile number
@@ -220,7 +222,8 @@
       $expd = $details["expd"];
       $details["trainer"] = $this->user_model->get_trainer_name($details["trainer"]);
       $this->user_model->update_user($details);
-      // $details;
+      // print_r($details);
+      $this->session->set_flashdata("update","success");
       redirect(base_url()."user/edit/".$details["id"]);
     }
 
