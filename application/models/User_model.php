@@ -133,6 +133,12 @@
       $this->db->query("UPDATE invoice_num set number=number+1");
       return $invoice;
     }
+    
+    function get_due_details()
+    {
+        $query = $this->db->query("SELECT * FROM due");
+        return $query;
+    }
 
     function get_one_client($id)
     {

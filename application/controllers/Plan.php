@@ -174,10 +174,7 @@ function updatePlanAdd(){
     $data["planData"]=$this->Plan_model->PlanData($planid);
     $data["plan_cat"] = $this->Plan_model->sel_plan_category();
     $this->load->view("back/plans/plan_add_update",$data);
-
-
 }
-
 function update_add_plan(){
     $this->load->helper('url');
     $this->load->model('Plan_model');
@@ -226,29 +223,11 @@ function update_add_plan(){
             'id'=>$this->input->post("id")
           );
         $this->Plan_model->DeletePlan($data);
-        $this->load->view("back/plans/plan_view");
+        $this->view();
     }
 }
     
-//public function check_plan($str)
-//{
-//    $this->load->helper('url');
-//    $this->load->model('Plan_model');
-//    $query = $this->Plan_model->check_plan_name($str);
-//    function plan_names($str1)
-//    {
-//        
-//        if($query->num_rows()>0){
-//            return FALSE;
-//        }
-//        else{
-//            return TRUE;
-//        }
-//        
-//    }
-//}
-    
-    
+
 function view(){
     $this->load->helper('url');
         $this->load->model('Plan_model');

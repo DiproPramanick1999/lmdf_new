@@ -15,7 +15,7 @@ if(!($user['type'] == "admin")){
        <div class="col-sm-6">
          <ol class="breadcrumb float-sm-right">
            <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Home</a></li>
-           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>user/user_display">User</a></li>
+           <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>user/user_view">User</a></li>
            <li class="breadcrumb-item active">View</li>
          </ol>
        </div>
@@ -25,7 +25,7 @@ if(!($user['type'] == "admin")){
 
     <section class="content"  style="margin-top:20px;">
         <div class="container-fluid">
-          <button class="btn btn-dark" onclick="window.location.href='<?php echo base_url(); ?>user/user_display'">User Details</button>  
+          <button class="btn btn-dark" onclick="window.location.href='<?php echo base_url(); ?>user/user_view'">User Details</button>  
           <div class="row">
             <div class="col-12">
               <div class="card">

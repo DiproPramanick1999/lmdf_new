@@ -69,7 +69,7 @@ if($user['type'] != "admin" and $user['type'] != "sales"){
                      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                    });
                  }
-
+     
                  var table = "<?php echo $user_due_detail; ?>";
                  $("#table-body-user-due").html(table);
 
