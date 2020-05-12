@@ -6,6 +6,12 @@
         $query = $this->db->query("SELECT * from user");
         return $query;
     }
+    
+    function get_all_user_details($userid)
+    {
+        $query = $this->db->query("SELECT * from user WHERE id={$userid}");
+        return $query;
+    }
     function getRegisteredUser()
     {
       $query = $this->db->query("SELECT * from user where email is not null");
