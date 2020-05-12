@@ -72,13 +72,9 @@ if(!($user['type'] == "admin")){
                      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                    });
                  }
-<<<<<<< Updated upstream
                  
                  var table = "<?php echo $plan_detail; ?>";
                  $("#table-body-plan").html(table);
-=======
-                 getDetails();
->>>>>>> Stashed changes
                  
                  function viewPlan(id)
                  {
