@@ -164,29 +164,6 @@
         $this->load->view('back/employee/photo',$data);
       }
 
-      // View Employees
-      // function getEmployees()
-      // {
-      //   $this->load->helper('url');
-      //   $search = $_POST['search'];
-      //   $this->load->model('employee_model');
-      //   $query = $this->employee_model->getEmployees($search);
-      //   $table = "";
-      //   if ($query->num_rows()>0) {
-        //   foreach ($query->result() as $row) {
-        //     $table .= "<tr onclick='viewEmployeeDetails({$row->id})'>";
-        //     $table .= "<td>{$row->id}</td>";
-        //     $table .= "<td>{$row->name}</td>";
-        //     $table .= "<td>{$row->phone}</td>";
-        //     $table .= "<td>{$row->type}</td>";
-        //     $table .= "</tr>";
-        //   }
-        //
-        // }else{
-        //   $table .= "No Employees Available";
-        // }
-      //   echo $table;
-      // }
 
       // View Employee Details
 

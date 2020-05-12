@@ -313,7 +313,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
-                Users
+                Clients
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
@@ -322,6 +322,13 @@
                 <a href="<?php echo base_url(); ?>dashboard/registered" class="nav-link">
                   <i class="fas fa-binoculars nav-icon"></i>
                   <p>Registered Users</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="<?php echo base_url(); ?>user/add" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  <p>New Clients</p>
                 </a>
               </li>
 
@@ -453,6 +460,7 @@
             </li>
           </ul>
         </li>
+
 
 
           <!-- <li class="nav-item has-treeview">
