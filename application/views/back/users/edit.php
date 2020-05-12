@@ -3,6 +3,13 @@
   if (!($user['type'] == "admin" || $user['type'] == "sales")) {
     redirect(base_url());
   }
+  if ($this->session->flashdata("update") == "success") {
+    echo "<script>alert('Updated Successfully')</script>";
+  }
+  if ($this->session->flashdata("new_user") == "success") {
+    echo "<script>alert('Client Added Successfully')</script>";
+  }
+
  ?>
 
 <!-- <div class="content-wrapper"> -->
@@ -11,26 +18,32 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Add New Client</h1>
+          <h1>Edit/Extension</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Home</a></li>
             <li class="breadcrumb-item"><a href="<?php echo base_url()."user/view"; ?>">Clients</a></li>
-            <li class="breadcrumb-item active">Add New Client</li>
+            <li class="breadcrumb-item active">Edit Client</li>
           </ol>
         </div>
       </div>
+      <!-- DROPDOWN HERE -->
+      <?php
+       $page="edit";
+       $url = $this->uri->segment_array();
+       $userid = end($url);
+       ?>
+      <?php include 'dropdown.php'; ?>
     </div><!-- /.container-fluid -->
   </section>
-<form method="post" action="<?php echo base_url(); ?>user/user_add">
+<form method="post" action="<?php echo base_url(); ?>user/update">
   <section class="content">
     <div class="container-fluid">
       <script type="text/javascript">
-        var mob_valid = false;
-        var email_valid = false;
-        var planc_valid = false;
-        var plan_valid = false;
+        var mob_valid = true;
+        var email_valid = true;
+        var trainer_valid = false;
       </script>
       <div class="row">
         <!-- left column -->
@@ -49,13 +62,13 @@
                     <!-- text input -->
                     <div class="form-group">
                       <label>ID</label>
-                      <input type="number" name="employeeid" class="form-control" placeholder="Enter ID" value="<?php echo $id; ?>" disabled>
+                      <input type="number" name="id" class="form-control" placeholder="Enter ID" value="<?php echo $id; ?>" readonly>
                     </div>
                   </div>
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label>Name <span style="color:red">*</span></label>
-                      <input type="text" name="name" class="form-control" placeholder="Enter Name" value="<?php echo $this->session->flashdata("name"); ?>" required>
+                      <input type="text" name="name" class="form-control" placeholder="Enter Name" value="<?php echo $name; ?>" required>
                     </div>
                   </div>
                 </div>
@@ -67,7 +80,7 @@
                       <label>Mobile Number <span style="color:red">*</span> </label>
                       <p style="color:red" id="mobile_msg"></p>
                       <div class="input-group">
-                      <input type="number" id="mobile" name="phone" onchange="mobile_validate()" value="<?php echo $this->session->flashdata("mobile"); ?>" class="form-control" placeholder="Enter Mobile Number" required>
+                      <input type="number" id="mobile" name="phone" onchange="mobile_validate()" value="<?php echo $phone; ?>" class="form-control" placeholder="Enter Mobile Number" required>
                       <div class="input-group-append" id="mob-loader" style="display:none;">
                         <img src="<?php echo base_url(); ?>back_static/images/loader.gif" style="width:20px;">
                       </div>
@@ -78,11 +91,14 @@
                             mob_loader.style.display = "block";
                             $.ajax({
                               type: 'POST',
-                              url: '<?php echo base_url(); ?>user/mobile_validate',
+                              url: '<?php echo base_url(); ?>user/mobile_validate_edit',
                               data: {
-                                'mobile' : $("#mobile").val()
+                                'mobile' : $("#mobile").val(),
+                                'id' : <?php echo $id; ?>,
+                                'existing' : "<?php echo $phone; ?>",
                               },
                               success: function(msg) {
+                                console.log(msg);
                                 if (msg == "success") {
                                   $("#mobile_msg").text("");
                                   $("#mobile").addClass("is-valid");
@@ -115,7 +131,7 @@
                       <label>Email <span style="color:red">*</span></label>
                       <p style="color:red" id="email_msg"></p>
                       <div class="input-group">
-                      <input type="email" id="email" name="email" class="form-control" onchange="email_validate()" value="<?php echo $this->session->flashdata("email"); ?>" placeholder="Enter Email" required>
+                      <input type="email" id="email" name="email" class="form-control" onchange="email_validate()" value="<?php echo $email; ?>" placeholder="Enter Email" required>
                       <div class="input-group-append" id="email-loader" style="display:none;">
                         <img src="<?php echo base_url(); ?>back_static/images/loader.gif" style="width:20px;">
                       </div>
@@ -126,9 +142,11 @@
                             email_loader.style.display = "block";
                             $.ajax({
                               type: 'POST',
-                              url: '<?php echo base_url(); ?>user/email_validate',
+                              url: '<?php echo base_url(); ?>user/email_validate_edit',
                               data: {
-                                'email' : $("#email").val()
+                                'email' : $("#email").val(),
+                                'id' : <?php echo $id; ?>,
+                                'existing' : "<?php echo $email; ?>",
                               },
                               success: function(msg) {
                                 if (msg == "success") {
@@ -166,7 +184,7 @@
                       <label>Nationality<span style="color:red">*</span></label>
                       <select class="form-control" name="country">
                         <?php foreach ($nations as $row):?>
-                            <option value="<?php echo $row->code; ?>" <?php if($row->nation == "India"){echo "selected";} ?>><?php echo $row->nation; ?></option>
+                            <option value="<?php echo $row->code; ?>" <?php if($row->code == $country){echo "selected";} ?>><?php echo $row->nation; ?></option>
                         <?php endforeach; ?>
                       </select>
                     </div>
@@ -175,7 +193,7 @@
                     <div class="form-group">
                       <label>Date of Birth <span style="color:red">*</span></label>
                       <div class="input-group">
-                        <input type="date" class="form-control" name="dob" value="<?php echo $this->session->flashdata("dob"); ?>" required>
+                        <input type="date" class="form-control" name="dob" value="<?php echo $dob; ?>" required>
                         <div class="input-group-append">
                           <div class="input-group-text"><i class="fas fa-calendar"></i></div>
                         </div>
@@ -190,16 +208,16 @@
                     <div class="form-group">
                       <label>Gender <span style="color:red">*</span></label>
                       <select class="form-control" name="gender">
-                        <option>Male</option>
-                        <option>Female</option>
-                        <option>Other</option>
+                        <option <?php if($gender == "Male"){echo "selected";} ?>>Male</option>
+                        <option <?php if($gender == "Female"){echo "selected";} ?>>Female</option>
+                        <option <?php if($gender == "Other"){echo "selected";} ?>>Other</option>
                       </select>
                     </div>
                   </div>
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label>Emergency Contact Number <span style="color:red">*</span> </label>
-                      <input type="number" id="emernum" name="emerNum"  value="<?php echo $this->session->flashdata("mobile"); ?>" class="form-control" placeholder="Enter Mobile Number" required>
+                      <input type="number" id="emernum" name="emerNum"  value="<?php echo $emerNum; ?>" class="form-control" placeholder="Enter Mobile Number" required>
                     </div>
                 </div>
               </div>
@@ -207,24 +225,24 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Emergency Contact Name <span style="color:red">*</span></label>
-                    <input type="text" name="emerName" class="form-control" placeholder="Enter Contact Name" value="" required>
+                    <input type="text" name="emerName" class="form-control" placeholder="Enter Contact Name" value="<?php echo $emerName; ?>" required>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Relationship with Emergency Contact <span style="color:red">*</span></label>
-                    <input type="text" name="relation" class="form-control" placeholder="Enter Relation With Contact" value="<?php echo $this->session->flashdata("name"); ?>" required>
+                    <input type="text" name="relation" class="form-control" placeholder="Enter Relation With Contact" value="<?php echo $relation; ?>" required>
                   </div>
                 </div>
               </div>
                 <!-- input states -->
                 <div class="form-group">
                   <label class="col-form-label" for="inputSuccess">Aadhar/Passport ID Number <span style="color:red">*</span></label>
-                    <input type="text" name="verification" class="form-control" id="verification" placeholder="Enter Verification Details" value="<?php echo $this->session->flashdata("verification"); ?>" required>
+                    <input type="text" name="verification" class="form-control" id="verification" placeholder="Enter Verification Details" value="<?php echo $verification; ?>" required>
                 </div>
                 <div class="form-group">
                   <label class="col-form-label" for="inputSuccess">Address <span style="color:red">*</span></label>
-                    <input type="text" name="address" class="form-control" id="address" placeholder="Enter Address" value="" required>
+                    <input type="text" name="address" class="form-control" id="address" placeholder="Enter Address" value="<?php echo $address ?>" required>
                 </div>
                 <div class="row">
                   <div class="col-sm-6">
@@ -232,14 +250,14 @@
                     <div class="form-group">
                       <label>Blood Group <span style="color:red">*</span></label>
                       <select class="form-control" name="blood">
-                        <option>A+</option>
-                        <option>A-</option>
-                        <option>B+</option>
-                        <option>B-</option>
-                        <option>AB+</option>
-                        <option>AB-</option>
-                        <option>O+</option>
-                        <option>O-</option>
+                        <option <?php if($blood == "A+"){echo "selected";} ?>>A+</option>
+                        <option <?php if($blood == "A-"){echo "selected";} ?>>A-</option>
+                        <option <?php if($blood == "B+"){echo "selected";} ?>>B+</option>
+                        <option <?php if($blood == "B-"){echo "selected";} ?>>B-</option>
+                        <option <?php if($blood == "AB+"){echo "selected";} ?>>AB+</option>
+                        <option <?php if($blood == "AB-"){echo "selected";} ?>>AB-</option>
+                        <option <?php if($blood == "O+"){echo "selected";} ?>>O+</option>
+                        <option <?php if($blood == "O-"){echo "selected";} ?>>O-</option>
                       </select>
                     </div>
                   </div>
@@ -248,7 +266,12 @@
                       <label>Height <span style="color:red">*</span></label>
                       <select class="form-control" name="height">
                         <?php for ($i=120; $i <=220 ; $i++) {
-                          echo "<option>".$i."</option>";
+                          if ($i == $height) {
+                            $sel = "selected";
+                          }else{
+                            $sel = "";
+                          }
+                          echo "<option ".$sel.">".$i."</option>";
                         } ?>
                       </select>
                     </div>
@@ -258,13 +281,13 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Weight<span style="color:red">*</span> </label>
-                    <input type="number" id="weight" name="weight"  value="<?php echo $this->session->flashdata("mobile"); ?>" class="form-control" placeholder="Enter Weight" required>
+                    <input type="number" id="weight" name="weight"  value="<?php echo $weight; ?>" class="form-control" placeholder="Enter Weight" required>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Other Health Issues<span style="color:red">*</span> </label>
-                    <input type="text" id="other" name="others"  value="<?php echo $this->session->flashdata("mobile"); ?>" class="form-control" placeholder="Enter Health Issues" required>
+                    <input type="text" id="other" name="others"  value="<?php echo $others; ?>" class="form-control" placeholder="Enter Health Issues" required>
                   </div>
                 </div>
               </div>
@@ -287,61 +310,29 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Plan Category <span style="color:red">*</span></label>
-                        <select class="form-control" id="planC" name="planC" onchange="getPlans()">
-                          <?php foreach ($plan_category as $row): ?>
-                            <?php if ($row == "No Plan Category"): ?>
-                                <option><?php echo $row; ?></option>
-                                <script type="text/javascript">
-                                    planc_valid = false;
-                                </script>
-                              <?php else: ?>
-                                <option value="<?php echo $row->category ?>"><?php echo ucwords($row->category); ?></option>
-                                <script type="text/javascript">
-                                    planc_valid = true;
-                                </script>
-                            <?php endif; ?>
-                          <?php endforeach; ?>
+                        <select class="form-control" id="planC" name="planC" disabled>
+                          <option value="<?php echo $planC ?>"><?php echo ucwords($planC); ?></option>
                         </select>
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Plan Term <span style="color:red">*</span></label>
-                        <select class="form-control" onchange="getPlanDetails()" id="plans" name="plans">
+                        <select class="form-control" id="plans" name="plans" disabled>
+                          <option value="<?php echo $plans ?>"><?php echo ucwords($plans); ?></option>
                         </select>
                       </div>
                     </div>
                   </div>
-                  <script type="text/javascript">
-                    const plans = <?php echo json_encode($plans); ?>;
-                    let plan;
-                    function getPlans(){
-                      var planC = $("#planC").val();
-                      output = "";
-                      if(planC in plans){
-                        plan = plans[planC];
-                        for (var i in plan) {
-                          output += "<option>"+i+"</option>";
-                        }
-                        plan_valid = true;
-                      }else {
-                        plan = "none";
-                        output += "<option>No Plans</option"
-                        plan_valid = false;
-                      }
-                      $("#plans").html(output);
-                      getPlanDetails();
-                      submit_valid();
-                    }
-                    getPlans();
-                  </script>
+
 
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Date of Joining <span style="color:red">*</span></label>
                         <div class="input-group">
-                          <input type="date" class="form-control" id="joind" name="joind" onchange="expdDateChange()">
+                          <!-- <?php echo $joind; ?> -->
+                          <input type="date" class="form-control" id="joind" name="joind" value="<?php echo $joind; ?>" disabled>
                           <div class="input-group-append">
                             <div class="input-group-text"><i class="fas fa-calendar"></i></div>
                           </div>
@@ -353,7 +344,7 @@
                               local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
                               return local.toJSON().slice(0,10);
                           });
-                          $('#joind').val(new Date().toDateInputValue());
+                          // $('#joind').val(new Date().toDateInputValue());
                         </script>
                       </div>
                     </div>
@@ -361,7 +352,7 @@
                       <div class="form-group">
                         <label>Date of Expiry</label>
                         <div class="input-group">
-                          <input type="date" class="form-control" id="expd" name="expd" readonly>
+                          <input type="date" class="form-control" id="expd" name="expd" value="<?php echo $expd; ?>" min="<?php echo $expd; ?>">
                           <div class="input-group-append">
                             <div class="input-group-text"><i class="fas fa-calendar"></i></div>
                           </div>
@@ -375,7 +366,7 @@
                         <label>Trainer <span style="color:red">*</span></label>
                         <select class="form-control" id="trainer" name="trainer" onchange="get_time_slot()">
                           <?php foreach ($trainers as $key => $value): ?>
-                            <option value="<?php echo $key; ?>"><?php echo $value["name"]; ?></option>
+                            <option value="<?php echo $key; ?>" <?php if($trainer==$value["name"]){echo "selected";} ?>><?php echo $value["name"]; ?></option>
                           <?php endforeach; ?>
                         </select>
                       </div>
@@ -383,7 +374,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Time Slot <span style="color:red">*</span></label>
-                        <select class="form-control" name="time" id="time_slot">
+                        <select class="form-control" name="time" value="<?php echo $time; ?>" id="time_slot">
                         </select>
                       </div>
                     </div>
@@ -410,51 +401,20 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Plan Price</label>
-                        <input type="number" id="plan-price" name="plan_price" class="form-control" placeholder="Plan Price" readonly>
+                        <input type="number" id="plan-price" name="plan_price" class="form-control" placeholder="Plan Price" value="<?php echo $discc; ?>" disabled>
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Personal Training <span style="color:red">*</span></label>
                         <select class="form-control" name="pt">
-                          <option value="1">Yes</option>
-                          <option value="0" selected>No</option>
+                          <option value="1" <?php if($pt == 1){echo "selected";} ?>>Yes</option>
+                          <option value="0" <?php if($pt == 0){echo "selected";} ?>>No</option>
                         </select>
                       </div>
                     </div>
                   </div>
                 </div>
-                <input type="hidden" name="tax_type" id="tax_type">
-                <script type="text/javascript">
-                  var years = 0;
-                  var months = 0;
-                  var price = 0;
-                  var tax_type = "";
-                  function expdDateChange() {
-                    // Converting years and months to total months
-                    var tot_month = 12*years + parseInt(months);
-                    // Finding Expired Date
-                    var joind = new Date($("#joind").val()+" 00:00:00");
-                    joind.setMonth(joind.getMonth()+tot_month);
-                    var joinM = joind.getMonth()+1;
-                    var joinD = joind.getDate()-1;
-                    var expd = joind.getFullYear() + "-" + (joinM<10?"0"+joinM:joinM) + "-" + (joinD<10?"0"+joinD:joinD);
-                    $("#expd").val(expd);
-                  }
-
-                  function getPlanDetails(){
-                    let sel_plan = plan[$("#plans").val()]
-                    years = sel_plan["years"];
-                    months = sel_plan["months"];
-                    price = sel_plan["price"];
-                    tax_type = sel_plan["tax_type"];
-                    $("#plan-price").val(price);
-                    $("#tax_type").val(tax_type);
-                    expdDateChange();
-                    payments_init();
-                  }
-                  getPlanDetails();
-                </script>
             </div>
             </div>
           </div>
@@ -470,13 +430,13 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Discount Percentage<span style="color:red">*</span> </label>
-                        <input type="number" id="discp" name="discp" class="form-control" onkeyup="discp_change()" placeholder="Enter Percentage" value="0">
+                        <input type="number" id="discp" name="discp" class="form-control" placeholder="Enter Percentage" value="<?php echo $discp; ?>" disabled>
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Cost to the Client<span style="color:red">*</span> </label>
-                        <input type="number" id="discc" name="discc" class="form-control" onkeyup="discc_change()" placeholder="Cost to the Client">
+                        <input type="number" id="discc" name="discc" class="form-control" placeholder="Cost to the Client" disabled value="<?php echo $discc; ?>">
                       </div>
                     </div>
                   </div>
@@ -484,13 +444,13 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Amount Paid By Cash</label>
-                          <input type="number" id="cash" name="cash" onkeyup="cost_calculation()" class="form-control" placeholder="Amount Paid By Cash">
+                          <input type="number" id="cash" name="cash" class="form-control" placeholder="Amount Paid By Cash" value="<?php echo $cash; ?>" disabled>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Amount Paid By Card</label>
-                          <input type="number" id="card" name="card" onkeyup="cost_calculation()" class="form-control" placeholder="Amount Paid By Card" value="0">
+                          <input type="number" id="card" name="card" onkeyup="cost_calculation()" class="form-control" placeholder="Amount Paid By Card" value="<?php echo $card; ?>" disabled>
                         </div>
                     </div>
                   </div>
@@ -498,13 +458,13 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Amount Paid By Cheque</label>
-                          <input type="number" id="cheque" name="cheque" onkeyup="cost_calculation()" class="form-control" placeholder="Amount Paid By Cheque" value="0">
+                          <input type="number" id="cheque" name="cheque" onkeyup="cost_calculation()" class="form-control" placeholder="Amount Paid By Cheque" value="<?php echo $cheque; ?>" disabled>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Amount Paid By Online</label>
-                          <input type="number" id="online" name="online" onkeyup="cost_calculation()" class="form-control" placeholder="Amount Paid By Online" value="0">
+                          <input type="number" id="online" name="online" onkeyup="cost_calculation()" class="form-control" placeholder="Amount Paid By Online" value="<?php echo $online; ?>" disabled>
                         </div>
                     </div>
                   </div>
@@ -512,13 +472,14 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Amount Paid By Client</label>
-                          <input type="number" id="apc" name="apc" class="form-control" placeholder="Amount Paid By Client" readonly>
+                          <input type="number" id="apc" name="apc" class="form-control" placeholder="Amount Paid By Client" value="<?php echo $apc; ?>" disabled>
                         </div>
                     </div>
+                    <input type="hidden" name="invoice" value="<?php echo $invoice; ?>">
                     <div class="col-sm-6">
                         <div class="form-group">
                           <label>Due Amount</label>
-                          <input type="number" id="due" name="due" class="form-control" placeholder="Due Amount" readonly>
+                          <input type="number" id="due" name="due" class="form-control" placeholder="Due Amount" value="<?php echo $due_amt; ?>" disabled>
                         </div>
                     </div>
                   </div>
@@ -527,102 +488,19 @@
                       <div class="form-group">
                         <label>Due Payment Date(if applicable)</label>
                         <div class="input-group">
-                          <input type="date" class="form-control" name="due_date" value="" id="due_date">
+                          <input type="date" class="form-control" name="due_date" id="due_date" value="<?php echo $due_date ?>" disabled>
                           <div class="input-group-append">
                             <div class="input-group-text"><i class="fas fa-calendar"></i></div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <script type="text/javascript">
-                      $('#due_date').val(new Date().toDateInputValue());
-                    </script>
                   </div>
-                  <script type="text/javascript">
-                    function cost_calculation() {
-                      var cash = parseInt($("#cash").val());
-                      var card = parseInt($("#card").val());
-                      var cheque = parseInt($("#cheque").val());
-                      var online = parseInt($("#online").val());
-                      $("#cash").val(cash);
-                      $("#card").val(card);
-                      $("#cheque").val(cheque);
-                      $("#online").val(online);
-                      var ctc = $("#discc").val()
-                      if ((cash+card+cheque+online)>ctc) {
-                        cash = card = cheque = online = 0;
-                        $("#cash").val(0);
-                        $("#card").val(0);
-                        $("#cheque").val(0);
-                        $("#online").val(0);
-                      }
-
-                      var apc = (cash+card+online+cheque);
-                      $("#apc").val(apc);
-                      $("#due").val(ctc-apc);
-                    }
-
-                    function payments_init() {
-                      $("#discc").val(price);
-                      $("#cash").val(0);
-                      $("#card").val(0);
-                      $("#cheque").val(0);
-                      $("#online").val(0);
-                      $("#discp").val(0);
-                      cost_calculation();
-                    }
-                    payments_init();
-                    function discp_change() {
-                      let discp = parseInt($("#discp").val());
-                      $("#discp").val(discp);
-                      let discc = price;
-                      if (discp>100 || discp<0 || isNaN(discp)) {
-                        $("#discp").val(0);
-                        $("#discc").val(price);
-                        $("#cash").val(0);
-                        $("#card").val(0);
-                        $("#cheque").val(0);
-                        $("#online").val(0);
-                      }else {
-                        let ctc = discc - (discc*discp/100);
-                        $("#discc").val(ctc);
-                        $("#cash").val(0);
-                        $("#card").val(0);
-                        $("#cheque").val(0);
-                        $("#online").val(0);
-                      }
-                    }
-                    function discc_change() {
-                      let discc = parseInt($("#discc").val());
-                      if (discc>price) {
-                        $("#discp").val(0);
-                        var val = 0;
-                        $("#discc").val(price);
-                        $("#cash").val(price);
-                        $("#card").val(0);
-                        $("#cheque").val(0);
-                        $("#online").val(0);
-                        $("#apc").val(price);
-                        cost_calculation();
-                      }else {
-                        var val = ((price-discc)/price)*100;
-                        $("#discc").val(discc);
-                        $("#cash").val(0);
-                        $("#card").val(0);
-                        $("#cheque").val(0);
-                        $("#online").val(0);
-                        $("#apc").val(discc);
-                        cost_calculation();
-                      }
-                      $("#discp").val(parseInt(val));
-                    }
-                  </script>
                 </div>
               </div>
           </div>
         </div>
       </div>
-
       <!-- /.row -->
     </div><!-- /.container-fluid -->
     <div class="row">
@@ -645,11 +523,11 @@
 <script type="text/javascript">
   function submit_valid() {
     if ($("#trainer").val() == "-1") {
-      plan_valid = false;
+      trainer_valid = false;
     }else {
-      plan_valid = true;
+      trainer_valid = true;
     }
-    if (mob_valid && email_valid && planc_valid && plan_valid && plan_valid) {
+    if (mob_valid && email_valid && trainer_valid) {
       $("#user-add-btn").prop("disabled",false);
     }else {
       $("#user-add-btn").prop("disabled",true);

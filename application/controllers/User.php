@@ -71,7 +71,7 @@
       }
       $user = $details;
       unset($user["due"],$user["due_date"]);// To remove unwanted data from user post
-      print_r($user);
+      // print_r($user);
       if ($details["due"]>0) {
         $due = array(
           'user_id' => $id,
@@ -98,9 +98,11 @@
         "crep" => $details["crep"],
         "tax_type" => $details["tax_type"],
       );
-      echo "<br><br><br>";
-      print_r($payment);
+      // echo "<br><br><br>";
+      // print_r($payment);
       $this->user_model->add_new_user($user,$payment);
+      $this->session->set_flashdata("new_user",'success');     
+      redirect(base_url()."user/edit/".$id);
     }
 
     // To validate the mobile number
@@ -152,6 +154,112 @@
         }
         $data["user_detail"] = $table;
         $this->load->view('back/users/user_view',$data);
+      }
+
+    function edit()
+    {
+      $this->load->model("user_model");
+      $url = $this->uri->segment_array();
+      $id = end($url);
+      if (strtolower($id) == "edit") {
+        redirect(base_url()."user/view");
+      }
+      $data = $this->user_model->get_one_client($id);
+      $data['nations'] = $this->user_model->getAllNations();
+      if ($data == "error") {
+        redirect(base_url()."user/view");
+      }
+      $trainer = $this->user_model->get_trainers();
+      $data["trainers"] = $trainer;
+      // print_r($data);
+      $this->load->view("back/users/edit",$data);
+    }
+
+    function email_validate_edit()
+    {
+      $id = $_POST['id'];
+      $existing = $_POST['existing'];
+      $this->load->helper('url');
+      $this->load->library("form_validation");
+      if ($existing == $_POST["email"]) {
+        $unique = "";
+      }else {
+        $unique = "|is_unique[employee.email]";
+      }
+      $this->form_validation->set_rules("email","Email", "required|valid_email".$unique);
+      if ($this->form_validation->run()) {
+        echo "success";
+      }else{
+        echo "error";
+      }
+    }
+
+    // To validate the mobile number
+    function mobile_validate_edit()
+    {
+      $id = $_POST["id"];
+      $existing = $_POST["existing"];
+      $this->load->helper('url');
+      $this->load->library("form_validation");
+      if ($existing == $_POST["mobile"]) {
+        $unique = "";
+      }else {
+        $unique = "|is_unique[employee.phone]";
+      }
+      $this->form_validation->set_rules("mobile","Mobile", "required|min_length[10]|max_length[10]".$unique);
+      $var = $this->form_validation->run();
+      if ($this->form_validation->run()) {
+        echo "success";
+      }else{
+        echo "error";
+      }
+    }
+
+    function update()
+    {
+      $details = $this->input->post();
+      $this->load->model("user_model");
+      $expd = $details["expd"];
+      $details["trainer"] = $this->user_model->get_trainer_name($details["trainer"]);
+      $this->user_model->update_user($details);
+      // print_r($details);
+      $this->session->set_flashdata("update","success");
+      redirect(base_url()."user/edit/".$details["id"]);
+    }
+
+    function user_due()
+    {
+        $this->load->helper('url');
+        $this->load->model('User_model');
+        $query=$this->User_model->get_due_details();
+        $table = "";
+        if ($query->num_rows()>0) {
+          foreach ($query->result() as $row) {
+            if($row->status=="Active"){
+            $table .= "<tr class='text-success'>";
+            $table .= "<td>{$row->user_id}</td>";
+            $table .= "<td>{$row->due_amt}</td>";
+            $table .= "<td>{$row->date}</td>";
+            $table .= "<td>{$row->status}</td>";
+            $table .= "</tr>";
+            }
+            else{
+            $table .= "<tr class='text-danger'>";
+            $table .= "<td>{$row->user_id}</td>";
+            $table .= "<td>{$row->due_amt}</td>";
+            $table .= "<td>{$row->date}</td>";
+            $table .= "<td>{$row->status}</td>";
+            $table .= "</tr>";
+
+            }
+          }
+        }
+        else
+        {
+          $table .= "No Records Available";
+        }
+        $data["user_due_detail"] = $table;
+        $this->load->view('back/users/user_due_view',$data);
     }
     
     function user_due()
