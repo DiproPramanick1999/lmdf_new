@@ -188,5 +188,14 @@
         $data["user_due_detail"] = $table;
         $this->load->view('back/users/user_due_view',$data);
     }
+      
+    function user_detail_view()
+    {
+        $this->load->helper('url');
+        $this->load->model('User_model');
+        $userid = $this->session->userdata('userid');
+        $data['user_details']=$this->User_model->get_all_user_details($userid);
+        $this->load->view('back/users/user_detail_view',$data);
+    }
 }
  ?>
