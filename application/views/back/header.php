@@ -311,7 +311,7 @@
            ?>
            <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
+              <i class="fas fa-address-book nav-icon"></i>
               <p>
                 Clients
                 <i class="fas fa-angle-left right"></i>
@@ -332,12 +332,19 @@
                 </a>
               </li>
 
+              <li class="nav-item">
+                <a href="<?php echo base_url(); ?>user/view" class="nav-link">
+                  <i class="fas fa-user nav-icon"></i>
+                  <p>View Clients</p>
+                </a>
+              </li>
+
             </ul>
           </li>
 
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-user"></i>
+              <i class="nav-icon fas fa-users"></i>
               <p>
                 Employees
                 <i class="fas fa-angle-left right"></i>
@@ -900,6 +907,12 @@
         <?php
             if ($user['type'] == "user") {
          ?>
+         <li class="nav-item">
+           <a href="<?php echo base_url(); ?>user/details" class="nav-link">
+             <i class="fas fa-user-circle nav-icon"></i>
+             <p>View Profile</p>
+           </a>
+         </li>
 
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">

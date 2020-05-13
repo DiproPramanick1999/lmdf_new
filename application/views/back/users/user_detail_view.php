@@ -67,7 +67,7 @@
                     <div class="form-group">
                       <label>Mobile Number</label>
                       <input type="number" id="mobile" name="mobile" value="<?php echo $user_details->row()->phone;?>" class="form-control" placeholder="Enter Mobile Number" disabled>
-                      
+
                     </div>
                   </div>
                   <div class="col-sm-6">
@@ -99,13 +99,13 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <div class="row">
                    <div class="col-sm-6">
                     <div class="form-group">
                       <label>Emergency Number</label>
                       <div class="input-group">
-                        <input type="text" name="doj" class="form-control" value="<?php echo $user_details->row()->emerNum;?>" disabled> 
+                        <input type="text" name="doj" class="form-control" value="<?php echo $user_details->row()->emerNum;?>" disabled>
                       </div>
                     </div>
                   </div>
@@ -118,7 +118,7 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <div class="row">
                  <div class="col-sm-6">
                     <div class="form-group">
@@ -137,7 +137,7 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <div class="row">
                    <div class="col-sm-6">
                     <div class="form-group">
@@ -151,7 +151,12 @@
                     <div class="form-group">
                       <label>Status</label>
                       <div class="input-group">
-                        <input type="text" name="doj" class="form-control" value="<?php echo $user_details->row()->status;?>" disabled>
+                        <?php if ($user_details->row()->status == "Expire"): ?>
+                        <input type="text" name="doj" class="form-control" value="Expired" disabled>
+                        <?php else: ?>
+                          <input type="text" name="doj" class="form-control" value="<?php echo $user_details->row()->status; ?>" disabled> 
+                        <?php endif; ?>
+
                       </div>
                     </div>
                   </div>

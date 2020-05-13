@@ -1,6 +1,6 @@
 <?php
   include __DIR__ . "/../header.php";
-if(!($user['type'] == "admin")){
+if(!($user['type'] == "admin" || $user['type'] == "sales")){
     redirect(base_url());
   }
  ?>
@@ -25,7 +25,7 @@ if(!($user['type'] == "admin")){
 
     <section class="content"  style="margin-top:20px;">
         <div class="container-fluid">
-          <button class="btn btn-dark" onclick="window.location.href='<?php echo base_url(); ?>user/user_view'">User Details</button>  
+          <button class="btn btn-dark" onclick="window.location.href='<?php echo base_url(); ?>user/user_view'">User Details</button>
           <div class="row">
             <div class="col-12">
               <div class="card">
@@ -72,10 +72,10 @@ if(!($user['type'] == "admin")){
                      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                    });
                  }
-                 
+
                  var table = "<?php echo $user_detail; ?>";
                  $("#table-body-user").html(table);
-                 
+
                  function viewPlan(id)
                  {
                      window.location.href="<?php echo base_url() ?>User/edit/"+id;

@@ -6,7 +6,7 @@
         $query = $this->db->query("SELECT * from user");
         return $query;
     }
-    
+
     function get_all_user_details($userid)
     {
         $query = $this->db->query("SELECT * from user WHERE id={$userid}");
@@ -139,7 +139,7 @@
       $this->db->query("UPDATE invoice_num set number=number+1");
       return $invoice;
     }
-    
+
     function get_due_details()
     {
         $query = $this->db->query("SELECT * FROM due");
@@ -154,23 +154,20 @@
           $data = $row;
         }
         $data = json_decode(json_encode($data),true);
-        $query1 = $this->db->query("SELECT * from due where user_id=$id ORDER BY date desc");
+        $query1 = $this->db->query("SELECT * from due where user_id=$id ORDER BY date desc LIMIT 1");
         if ($query1->num_rows()>0) {
           foreach ($query1->result() as $row) {
             $data["due_amt"] = $row->due_amt;
             $data["due_date"] = $row->date;
           }
+        }else{
+          $data["due_amt"] = 0;
+          $data["due_date"] = "";
         }
         return $data;
       }else{
         return "error";
       }
-    }
-
-    function get_due_details()
-    {
-        $query = $this->db->query("SELECT * FROM due");
-        return $query;
     }
 
     function update_user($details)
