@@ -21,6 +21,13 @@
 
  <section class="content">
    <div class="container-fluid">
+     <div class="row">
+       <div class="col-lg-12">
+         <?php if ($user["status"] == "Expire"): ?>
+           <h3 style="color:red;">Please Renew Your Plan at Earliest.</h3>
+         <?php endif; ?>
+       </div>
+     </div>
      <!-- Small boxes (Stat box) -->
      <div class="row">
        <div class="col-lg-3 col-12" style="cursor:pointer;" onclick="window.location.href='workout/view'">

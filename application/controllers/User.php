@@ -101,7 +101,7 @@
       // echo "<br><br><br>";
       // print_r($payment);
       $this->user_model->add_new_user($user,$payment);
-      $this->session->set_flashdata("new_user",'success');     
+      $this->session->set_flashdata("new_user",'success');
       redirect(base_url()."user/edit/".$id);
     }
 
@@ -129,8 +129,8 @@
         echo "error";
       }
     }
-    
-    function user_view()
+
+    function view()
     {
         $this->load->helper('url');
         $this->load->model('User_model');
@@ -165,10 +165,10 @@
         redirect(base_url()."user/view");
       }
       $data = $this->user_model->get_one_client($id);
-      $data['nations'] = $this->user_model->getAllNations();
       if ($data == "error") {
         redirect(base_url()."user/view");
       }
+      $data['nations'] = $this->user_model->getAllNations();
       $trainer = $this->user_model->get_trainers();
       $data["trainers"] = $trainer;
       // print_r($data);
@@ -227,7 +227,7 @@
       redirect(base_url()."user/edit/".$details["id"]);
     }
 
-    function user_due()
+    function due()
     {
         $this->load->helper('url');
         $this->load->model('User_model');
@@ -261,43 +261,9 @@
         $data["user_due_detail"] = $table;
         $this->load->view('back/users/user_due_view',$data);
     }
-    
-    function user_due()
-    {
-        $this->load->helper('url');
-        $this->load->model('User_model');
-        $query=$this->User_model->get_due_details();
-        $table = "";
-        if ($query->num_rows()>0) {
-          foreach ($query->result() as $row) {
-            if($row->status=="Active"){
-            $table .= "<tr class='text-success'>";
-            $table .= "<td>{$row->user_id}</td>";
-            $table .= "<td>{$row->due_amt}</td>";
-            $table .= "<td>{$row->date}</td>";
-            $table .= "<td>{$row->status}</td>";   
-            $table .= "</tr>";
-            }
-            else{
-            $table .= "<tr class='text-danger'>";
-            $table .= "<td>{$row->user_id}</td>";
-            $table .= "<td>{$row->due_amt}</td>";
-            $table .= "<td>{$row->date}</td>";
-            $table .= "<td>{$row->status}</td>";   
-            $table .= "</tr>";
-                
-            }
-          }
-        }
-        else
-        {
-          $table .= "No Records Available";
-        }
-        $data["user_due_detail"] = $table;
-        $this->load->view('back/users/user_due_view',$data);
-    }
-      
-    function user_detail_view()
+
+
+    function details()
     {
         $this->load->helper('url');
         $this->load->model('User_model');
